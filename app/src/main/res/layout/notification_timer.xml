@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 접힌 알림(높이 48dp 제한): 토마토 · 시간 · 원형 버튼 두 개. 보조 글자 없음.
+     숫자 35dp, 토마토·버튼 원 34dp. 좁은 폰·큰 글씨에서는 24dp까지 자동으로 줄어요. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/notification_red_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="10dp"
+    android:paddingEnd="6dp">
+
+    <ImageView
+        android:id="@+id/notification_tomato"
+        android:layout_width="36dp"
+        android:layout_height="40dp"
+        android:translationY="-1.9dp"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:id="@+id/notification_phase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1">
+
+        <Chronometer
+            android:id="@+id/notification_countdown"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:translationY="-1.4dp"
+            android:gravity="center_vertical|start"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="24dp"
+            android:autoSizeMaxTextSize="35dp"
+            android:autoSizeStepGranularity="1sp"
+            android:fontFeatureSettings="tnum"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.01"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notification_paused"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:translationY="-1.4dp"
+            android:gravity="center_vertical|start"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="24dp"
+            android:autoSizeMaxTextSize="35dp"
+            android:autoSizeStepGranularity="1sp"
+            android:fontFeatureSettings="tnum"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/notification_toggle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/notification_circle_small"
+        android:contentDescription="재생 또는 멈춤"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_pause"
+        android:tint="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/notification_skip"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/notification_circle_small"
+        android:contentDescription="건너뛰기"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_skip"
+        android:tint="#FFFFFF" />
+</LinearLayout>

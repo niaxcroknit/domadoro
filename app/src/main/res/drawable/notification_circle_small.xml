@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 접힌 알림 버튼: 누르는 영역 40dp, 보이는 원 34dp (숫자 글자 높이 28dp의 약 1.2배). -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="3dp">
+    <shape android:shape="oval">
+        <solid android:color="#2EFFFFFF" />
+    </shape>
+</inset>

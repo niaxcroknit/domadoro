@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 잠금화면 빨간 카드 + 반짝이 장식.
+     반짝이는 글자·버튼과 겹치지 않게 위아래 여백(시간과 버튼 사이, 토마토 옆, 오른쪽 위 모서리)에만 둬요.
+     알림은 시스템이 그리는 화면이라 움직이지는 않고, 정지된 반짝이로 보여요. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="22dp" />
+            <gradient
+                android:angle="315"
+                android:endColor="#FF594B"
+                android:startColor="#FF7461" />
+        </shape>
+    </item>
+    <!-- 시간과 버튼 사이 위쪽: 노란 큰 별 -->
+    <item
+        android:width="13dp"
+        android:height="13dp"
+        android:drawable="@drawable/sparkle_star"
+        android:end="116dp"
+        android:gravity="top|end"
+        android:top="5dp" />
+    <!-- 그 아래 작은 크림 별 -->
+    <item
+        android:width="7dp"
+        android:height="7dp"
+        android:drawable="@drawable/sparkle_star"
+        android:bottom="6dp"
+        android:end="106dp"
+        android:gravity="bottom|end" />
+    <!-- 오른쪽 위 모서리: 민트 플러스 -->
+    <item
+        android:width="8dp"
+        android:height="8dp"
+        android:drawable="@drawable/sparkle_plus"
+        android:end="10dp"
+        android:gravity="top|end"
+        android:top="5dp" />
+    <!-- 토마토 오른쪽 아래: 연보라 점 -->
+    <item
+        android:width="4dp"
+        android:height="4dp"
+        android:bottom="7dp"
+        android:drawable="@drawable/sparkle_dot"
+        android:gravity="bottom|start"
+        android:start="58dp" />
+    <!-- 토마토 왼쪽 위: 작은 민트 별 -->
+    <item
+        android:width="7dp"
+        android:height="7dp"
+        android:drawable="@drawable/sparkle_star_mint"
+        android:gravity="top|start"
+        android:start="6dp"
+        android:top="6dp" />
+</layer-list>

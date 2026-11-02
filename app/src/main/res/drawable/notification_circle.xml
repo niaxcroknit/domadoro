@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 펼친 알림 버튼: 누르는 영역 48dp, 보이는 원 44dp.
+     둥근 원은 같은 높이의 숫자보다 작아 보여서, 숫자 글자 높이(36dp)의 약 1.2배로 키워 위아래로 같은 만큼 넘치게 함. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="2dp">
+    <shape android:shape="oval">
+        <solid android:color="#2EFFFFFF" />
+    </shape>
+</inset>

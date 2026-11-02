@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 네 갈래 반짝이 별 (메인 화면 장식과 같은 모양) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFF0BA"
+        android:pathData="M12,1Q12.6,11.4 23,12Q12.6,12.6 12,23Q11.4,12.6 1,12Q11.4,11.4 12,1Z" />
+</vector>

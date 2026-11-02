@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 펼친 알림(잠금화면). 글자 크기는 버튼과 비율을 지키려고 dp로 고정(이미 충분히 커서 시스템 글자 크기의 영향을 받지 않게).
+     : 한 줄에 토마토 · 시간 · 원형 버튼 두 개. 보조 글자 없음.
+     숫자 46dp, 토마토와 버튼의 보이는 원은 숫자 높이의 약 1.2배(44dp), 가운데 정렬. 버튼 누르는 영역 48dp.
+     폭이 좁은 폰이나 큰 글씨 설정에서는 시간이 잘리지 않게 28dp까지 자동으로 줄어요.
+     배경 카드에는 반짝이 장식이 들어 있어요(notification_red_card). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/notification_red_card"
+    android:gravity="center_vertical"
+    android:minHeight="76dp"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="12dp">
+
+    <ImageView
+        android:id="@+id/notification_tomato"
+        android:layout_width="46dp"
+        android:layout_height="51dp"
+        android:translationY="-2.5dp"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:id="@+id/notification_phase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1">
+
+        <Chronometer
+            android:id="@+id/notification_countdown"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:translationY="-1.8dp"
+            android:gravity="center_vertical|start"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="28dp"
+            android:autoSizeMaxTextSize="46dp"
+            android:autoSizeStepGranularity="1sp"
+            android:fontFeatureSettings="tnum"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.01"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="46dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notification_paused"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:translationY="-1.8dp"
+            android:gravity="center_vertical|start"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="28dp"
+            android:autoSizeMaxTextSize="46dp"
+            android:autoSizeStepGranularity="1sp"
+            android:fontFeatureSettings="tnum"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="46dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/notification_toggle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/notification_circle"
+        android:contentDescription="재생 또는 멈춤"
+        android:padding="14dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_pause"
+        android:tint="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/notification_skip"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/notification_circle"
+        android:contentDescription="건너뛰기"
+        android:padding="14dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_skip"
+        android:tint="#FFFFFF" />
+</LinearLayout>

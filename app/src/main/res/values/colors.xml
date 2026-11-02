@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tomato">#FF594B</color>
+    <color name="night">#171C2E</color>
+    <color name="cream">#FFF4E6</color>
+    <color name="window_bg">@color/tomato</color>
+    <!-- 앱 아이콘 배경: 스토어 아이콘과 같은 따뜻한 아이보리 -->
+    <color name="launcher_bg">#FFF6F1</color>
+</resources>

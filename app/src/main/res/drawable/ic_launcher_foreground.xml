@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 앱 아이콘 앞면: 승인 디자인의 토마토(링·꼭지 포함). 108dp 캔버스 가운데 66dp 안전 영역 안에 들어가게 0.2배.
+     좌표는 앱 화면 토마토와 같은 300×330 그림 좌표를 그대로 써요. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.2"
+        android:scaleY="0.2"
+        android:translateX="24"
+        android:translateY="19.4">
+        <!-- 몸통 -->
+        <path android:pathData="M150,68C205,42 290,81 289,174C294,269 220,322 150,307C80,322 6,269 11,174C10,81 95,42 150,68Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:endX="270"
+                    android:endY="300"
+                    android:startX="30"
+                    android:startY="40"
+                    android:type="linear">
+                    <item android:color="#FFFF8B6B" android:offset="0" />
+                    <item android:color="#FFF64C3E" android:offset="0.48" />
+                    <item android:color="#FFE33B43" android:offset="1" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- 은은한 빛 -->
+        <path android:pathData="M150,68C205,42 290,81 289,174C294,269 220,322 150,307C80,322 6,269 11,174C10,81 95,42 150,68Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:centerX="69"
+                    android:centerY="60"
+                    android:gradientRadius="230"
+                    android:type="radial">
+                    <item android:color="#4DFFFFFF" android:offset="0" />
+                    <item android:color="#00FFFFFF" android:offset="0.65" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- 타이머 링 (꼭지 아래는 비움) -->
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M188.65,73.81A113,113 0,1 1,111.35 73.81"
+            android:strokeWidth="12"
+            android:strokeAlpha="0.9"
+            android:strokeColor="#FFFFFCF7"
+            android:strokeLineCap="round" />
+        <!-- 꼭지 잎 -->
+        <path android:pathData="M150,63C132,44 115,40 99,45C109,60 131,63 148,65C132,68 121,78 120,90C138,89 148,78 151,69C160,84 173,89 184,87C179,72 165,65 155,65C175,63 195,57 203,43C180,38 162,47 150,63Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:endX="185"
+                    android:endY="90"
+                    android:startX="110"
+                    android:startY="40"
+                    android:type="linear">
+                    <item android:color="#FF8EDB98" android:offset="0" />
+                    <item android:color="#FF3E9A5E" android:offset="1" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- 꼭지 줄기 -->
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M150,62Q148,37 165,24"
+            android:strokeWidth="9"
+            android:strokeColor="#FF3E9A5E"
+            android:strokeLineCap="round" />
+    </group>
+</vector>
