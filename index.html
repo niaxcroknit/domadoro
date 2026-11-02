@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FF594B">
+<link rel="icon" href="play-store/icon-512.png">
+<link rel="apple-touch-icon" href="play-store/icon-512.png">
+<title>도마도로</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eae6df;color:#302c29;font-family:"Segoe UI","Malgun Gothic",sans-serif}button{font:inherit;cursor:pointer;border:0;color:inherit}header{max-width:1240px;margin:48px auto 30px;padding:0 32px;display:flex;align-items:end;justify-content:space-between}header small{letter-spacing:4px;font-size:11px;color:#7b756d}h1{font-size:32px;letter-spacing:-1.7px;margin:10px 0}header p{font-size:13px;color:#857b72;margin:0}.board{display:flex;justify-content:center;align-items:start;gap:30px;padding:12px 24px 60px;flex-wrap:wrap}.caption{font-size:11px;letter-spacing:2px;margin:0 0 14px 8px;color:#7d766d}.phone{--bg:#fff8f2;--ink:#302c29;--sub:#857b72;--sheet:#fff;--track:#f3eae1;--red:#d94f38;--ring:#e95f46;--tomato:#f8e8df;--leaf:#56836b;width:354px;height:810px;border:7px solid #faf9f6;border-radius:43px;background:var(--bg);color:var(--ink);overflow:hidden;box-shadow:0 18px 60px #51412b18;position:relative;display:flex;flex-direction:column}.phone.dark{--bg:#191d23;--ink:#f8efe4;--sub:#a7a39f;--sheet:#242930;--track:#30363d;--red:#ff957d;--ring:#ff8d75;--tomato:#282d33;--leaf:#9ac5ae;border-color:#30343a}.status{display:flex;justify-content:space-between;padding:16px 24px 0;font-size:11px;font-weight:650;height:40px}.main{padding:12px 22px 0;display:flex;flex-direction:column;flex:1;min-height:0}.brand{display:flex;align-items:center;gap:8px}.brand>div{flex:1}.wordmark{font-size:9px;letter-spacing:2.3px;color:var(--sub);font-weight:700}.brand h2{font-size:23px;letter-spacing:-1px;margin:3px 0 0}.icon{height:42px;min-width:42px;border-radius:50%;background:var(--track);font-size:20px;display:grid;place-items:center}.phases{display:flex;padding:4px;border-radius:18px;background:var(--track);margin-top:22px;font-size:12px;text-align:center;font-weight:700}.phases span{width:50%;padding:10px;border-radius:14px;color:var(--sub)}.phases .active{background:var(--sheet);color:var(--ink)}.face{position:relative;margin:6px auto 0;width:280px;height:292px;display:grid;place-items:center}.face svg{width:100%;height:100%;position:absolute;inset:0}.digits{position:relative;top:16px;text-align:center}.time{font-size:66px;letter-spacing:-4px;font-weight:300;line-height:1.12;font-variant-numeric:tabular-nums}.label{font-size:11px;color:var(--sub);margin-top:9px}.tagline{text-align:center;margin:1px 0 5px;font-size:18px;letter-spacing:-.7px}.duration{text-align:center;color:var(--sub);font-size:11px;margin:0 0 19px}.sound{width:100%;border-radius:19px;background:var(--sheet);padding:13px;display:flex;align-items:center;gap:12px;text-align:left}.sound svg{width:21px;height:21px;stroke:var(--red);fill:none;stroke-width:1.5}.sound div{flex:1}.sound strong{font-size:11px;display:block}.sound small{font-size:10px;color:var(--sub);display:block;margin-top:3px}.sound em{font-size:10px;font-style:normal;color:var(--red)}.bottom{background:var(--sheet);border-radius:29px 29px 0 0;padding:18px 22px 0;margin-top:18px}.harvest{display:flex;align-items:center;justify-content:space-between}.harvest small{color:var(--sub);font-size:10px}.harvest strong{display:block;font-size:14px;margin-top:4px}.tomatoes{display:flex;gap:3px}.tomatoes svg{width:22px;height:26px}.actions{display:flex;gap:10px;margin-top:17px}.reset{width:54px;background:var(--track);border-radius:18px;font-size:24px}.start{flex:1;background:var(--red);color:var(--bg);height:54px;border-radius:18px;font-size:15px;font-weight:700}.dark .start{color:#281f1d}.nav{display:flex;justify-content:space-around;padding:16px 0 13px;gap:8px}.nav button{background:transparent;color:var(--sub);width:80px;border-radius:14px;padding:7px 0;font-size:10px}.nav .selected{color:var(--red);background:var(--track)}.nav svg{width:20px;height:20px;display:block;margin:0 auto 5px;stroke:currentColor;stroke-width:1.5;fill:none}.gesture{height:4px;width:100px;border-radius:3px;background:var(--ink);opacity:.75;margin:0 auto 8px}.record{padding:16px 24px 0;flex:1}.eyebrow{font-size:10px;color:var(--sub);letter-spacing:2px}.record h2{font-size:27px;margin:7px 0 9px;letter-spacing:-1px}.record p{font-size:11px;color:var(--sub);margin:0}.total{font-size:65px;font-weight:300;letter-spacing:-4px;margin:18px 0 2px}.total small{font-size:19px;letter-spacing:0;margin-left:8px;font-weight:600}.record-panel{margin:24px -24px 0;padding:23px 23px 0;background:var(--sheet);border-radius:29px 29px 0 0;height:410px}.record-panel h3{font-size:13px;margin:0}.week{display:flex;justify-content:space-between;align-items:end;height:185px;margin-top:15px}.day{width:32px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%;gap:2px}.day svg{width:27px;height:27px}.day span{font-size:11px;color:var(--sub);margin-top:10px}.day:last-child span{color:var(--red);font-weight:700}.stats{display:flex;gap:7px;margin-top:23px}.stats div{flex:1;background:var(--track);padding:13px 10px;border-radius:14px}.stats small{font-size:10px;color:var(--sub);display:block}.stats b{font-size:16px;display:block;margin-top:6px}.note{font-size:11px;color:var(--sub);line-height:1.8;margin-top:22px}.record-bottom{padding:0 22px;background:var(--sheet)}.pip{position:fixed;bottom:24px;right:24px;background:#242930;color:#f8efe4;padding:20px;border-radius:22px;box-shadow:0 10px 40px #0003;z-index:4;display:none;text-align:center;width:180px}.pip b{font-size:40px;font-weight:300}.pip button{background:transparent;color:#ff957d}.info{max-width:1120px;margin:0 auto 30px;padding:0 24px;color:#857b72;font-size:11px;line-height:1.9}@media(max-width:800px){header{margin-top:24px;display:block}header p{margin-top:12px}.board{gap:26px}.phone{height:810px}}@media(prefers-reduced-motion:no-preference){button{transition:background .2s,transform .2s}button:active{transform:scale(.97)}}
+
+/* Tomato-first revision */
+body{background:#F1F3F8}
+header h1{font-weight:850;font-size:39px;letter-spacing:-2px}
+.phone{--bg:#FF594B;--ink:#FFFDFC;--sub:#FFE8E3;--sheet:#FFFCFA;--track:#F2F3F7;--red:#303449;--ring:#FFFCF7;--tomato:#F04438;--leaf:#BBF1B9;border-color:#FFFCFA;background:var(--bg)}
+.phone.dark{--bg:#171C2E;--ink:#F8FAFF;--sub:#B5C1DD;--sheet:#20273E;--track:#2D3753;--red:#A6EFD7;--ring:#FF9696;--tomato:#252E49;--leaf:#A6EFD7;border-color:#393047}
+.phone .status{color:var(--ink)}
+.main{padding:13px 24px 0;position:relative}
+.brand h2{font-size:23px;font-weight:850;letter-spacing:-1.5px}
+.main .icon{background:#ffffff16;color:var(--ink);width:39px;height:39px;min-width:39px}
+.hero-title{font-size:31px;line-height:1.25;letter-spacing:-1.7px;margin:24px 0 10px;font-weight:850}
+.hero-meta{display:flex;align-items:center;gap:6px;color:var(--sub);font-size:10px;margin:0}
+.hero-meta .dot{height:5px;width:5px;background:var(--leaf);border-radius:50%}
+.face{width:288px;height:300px;min-height:235px;flex:1;margin:0 auto}
+.digits{top:14px}.time{font-size:62px;font-weight:850;letter-spacing:0.5px}
+.label{font-size:8px;letter-spacing:2px;font-weight:600;margin-top:9px}
+.bottom{color:#303449;padding:17px 22px 0;margin-top:4px;border-radius:30px 30px 0 0}
+.bottom .harvest small,.bottom .duration{color:#7D8295}
+.harvest strong{font-size:16px}.harvest small{font-size:10px}
+.bottom .tomatoes{--ring:#FF594B;--leaf:#72C69F;--track:#FFE1DC}
+.bottom .duration{font-size:10px;text-align:left;margin:10px 0 0}
+.actions{margin-top:10px}.start{height:53px;background:#FF594B;color:#FFFCFA;border-radius:17px;font-size:15px}.dark .start{background:#A6EFD7;color:#1D3441}
+.reset{background:var(--track);height:53px;border-radius:17px;font-size:23px}
+.sound{background:var(--track);padding:10px 12px;border-radius:13px;gap:8px;margin-top:12px}
+.sound svg{stroke:currentColor;width:17px;height:17px}.sound strong{font-size:10px}.sound em{color:#7D8295;font-size:9px}.dark .bottom{color:#F8FAFF}.dark .bottom .harvest small,.dark .bottom .duration,.dark .sound em{color:#B1BCD6}
+.nav{padding:10px 0 9px}.nav button{color:#9095A6;padding:6px 0;font-size:9px}.nav .selected{background:#F2F3F7;color:#EF4B40}.dark .nav button{color:#9AAAC8}.dark .nav .selected{color:#A6EFD7;background:#2D3753}
+.gesture{margin-bottom:8px;background:currentColor}
+#basket{--bg:#FFF0ED;--ink:#303449;--sub:#85869A;--ring:#FF594B;--tomato:#FF594B;--leaf:#72C69F;--sheet:#FFFCFA;--track:#FCE4DF}
+#basket .record{padding-top:14px}
+#basket .eyebrow{color:#85869A}
+#basket .total{font-size:80px;font-weight:850;margin-top:24px;letter-spacing:-6px;line-height:1.1}
+#basket .total small{font-size:14px;letter-spacing:-.4px;font-weight:700}
+#basket .record-panel{margin-top:24px;background:#FFFCFA}
+#basket .record-panel h3{font-size:13px}
+#basket .stats div{background:#F4F4F8}
+#basket .record-bottom{color:#303449}
+
+/* Layered illustration, soft light, and restored playful accents */
+.phone.timer{background:radial-gradient(ellipse at 8% 5%,#ffac8366,transparent 53%),linear-gradient(150deg,#ff6853 0%,#ff594b 55%,#f94d53 100%)}
+.phone.timer.dark{background:radial-gradient(ellipse at 90% 18%,#675a9c36,transparent 54%),linear-gradient(145deg,#222942 0%,#171c2e 70%)}
+.main:after{content:"";position:absolute;width:120px;height:120px;border:1px solid #ffffff0d;border-radius:50%;right:-64px;top:78px;box-shadow:0 0 0 18px #ffffff04,0 0 0 38px #ffffff03;pointer-events:none}
+.main .brand,.hero-title,.hero-meta{position:relative;z-index:1}
+.main .icon{box-shadow:inset 0 1px 0 #ffffff30,0 3px 7px #ab2c3020;border:1px solid #ffffff12}
+.dark .main .icon{box-shadow:inset 0 1px 0 #ffffff1c,0 3px 8px #070d2433}
+.hero-title{ text-shadow:0 2px 1px #c82b2914}
+.header-spark{position:absolute;right:24px;top:111px;width:59px;height:59px;transform:rotate(12deg);pointer-events:none}
+.header-spark svg{width:100%;height:100%;overflow:visible}
+.face{isolation:isolate}
+.face>svg{overflow:visible}
+.digits{text-shadow:0 2px 0 #751c2815}
+.dark .digits{text-shadow:0 2px 12px #11183044}
+.bottom{position:relative;box-shadow:0 -8px 30px #a5213020,inset 0 1px 0 #ffffffaa;border-top:1px solid #ffffff8c}
+.dark .bottom{box-shadow:0 -8px 28px #060b242e,inset 0 1px 0 #ffffff0d;border-color:#ffffff0d}
+.start{background:linear-gradient(155deg,#ff7862,#ff594b 65%,#f64c48);box-shadow:0 5px 0 #db443a,0 9px 13px #f85b4633,inset 0 1px 0 #ffffff45;border:1px solid #ff857277}
+.dark .start{background:linear-gradient(155deg,#c4ffe8,#a6efd7 66%,#8bdec9);box-shadow:0 5px 0 #65b9a9,0 9px 15px #09182944,inset 0 1px 0 #ffffff88;border-color:#dbffed55}
+.start:active{transform:translateY(3px);box-shadow:0 2px 0 #db443a}
+.dark .start:active{box-shadow:0 2px 0 #65b9a9}
+.reset{box-shadow:inset 0 1px 0 #ffffff,0 3px 0 #e5e7ee}
+.dark .reset{box-shadow:inset 0 1px 0 #ffffff12,0 3px 0 #151d32}
+.sound{margin-top:16px;box-shadow:inset 0 1px 3px #222c4410;border:1px solid #e9eaf155}
+.dark .sound{border-color:#ffffff04;box-shadow:inset 0 2px 4px #080f2226}
+.tomatoes svg,.day svg{filter:drop-shadow(0 2px 1px #7a372518)}
+#basket{background:radial-gradient(circle at 86% 7%,#ffd6ce88,transparent 42%),linear-gradient(155deg,#fff5f1,#fff0ed)}
+#basket .record{position:relative}
+#basket .record:after{content:"✦";position:absolute;right:23px;top:99px;color:#ff9380;font-size:42px;transform:rotate(15deg);text-shadow:18px 31px 0 #b5e5d1}
+.record-panel{box-shadow:0 -4px 20px #ca72600c,inset 0 1px 0 #fff}
+.stats div{box-shadow:inset 0 1px 0 #fff,0 3px 7px #282c4405;border:1px solid #e9e9f133}
+.timer{--fruitLight:#ff8b6b;--fruitMid:#f64c3e;--fruitDeep:#e33b43;--fruitShadow:#a92737}.timer.dark{--fruitLight:#4a557d;--fruitMid:#303c60;--fruitDeep:#222b49;--fruitShadow:#080e25}
+
+/* Soft lighting: no hard lower edges. */
+.start{box-shadow:0 6px 18px #f85b4625,inset 0 1px 1px #ffffff28;border-color:#ffffff12}
+.dark .start{box-shadow:0 6px 18px #061c2928,inset 0 1px 1px #ffffff45;border-color:#ffffff12}
+.start:active,.dark .start:active{box-shadow:0 3px 12px #17233815}
+.reset{box-shadow:0 3px 12px #202a4410;border:0}
+.dark .reset{box-shadow:0 3px 12px #080d221c}
+.bottom{box-shadow:0 -7px 26px #a521300e;border-color:#ffffff44}
+.dark .bottom{box-shadow:0 -7px 26px #060b241c;border-color:#ffffff06}
+.main .icon,.dark .main .icon{box-shadow:0 3px 12px #1723380d;border-color:#ffffff0c}
+.hero-title{font-size:29px;text-shadow:none}
+.face>svg>path[stroke-dasharray]{opacity:.65}
+.tomatoes svg,.day svg{filter:none}
+.tomatoes,.week{--harvestRed:#f65342;--harvestLeaf:#409b6d;--emptyFruit:#ddc6c0}
+.dark .tomatoes{--harvestRed:#ff725e;--harvestLeaf:#71c398;--emptyFruit:#65738e}
+
+.continuity{max-width:1120px;margin:0 auto 45px;padding:0 24px}
+.continuity>h2{font-size:27px;letter-spacing:-1px;margin:0 0 9px}
+.continuity>p{font-size:12px;color:#7d8295;line-height:1.8}
+.continuity-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
+.context-stage{height:430px;border-radius:28px;background:#fffcfa;position:relative;overflow:hidden;border:1px solid #e1e5ed}
+.context-title{position:absolute;left:22px;top:18px;font-size:12px;color:#7d8295}
+.mock-app{padding:70px 25px 25px;color:#3c4960;background:linear-gradient(145deg,#f5f7fb,#e3eced);height:100%}
+.mock-app h3{font-size:26px;margin:0 0 12px;letter-spacing:-1px}
+.mock-app p{font-size:12px;color:#8993a1}
+.recipe-picture{height:135px;border-radius:18px;background:linear-gradient(135deg,#c4dbc6,#d8e6c8);display:grid;place-items:center;font-size:42px}
+.mock-lines{height:6px;background:#c9d3d8;width:60%;margin:18px 0;border-radius:10px;box-shadow:0 17px 0 #d0dadd,0 34px 0 #d0dadd}
+.small-window{position:absolute;right:19px;bottom:22px;width:168px;height:126px;border-radius:16px;background:linear-gradient(145deg,#ff7160,#ff594b);box-shadow:0 8px 24px #18304b20;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.small-window .phase{font-size:10px;display:flex;align-items:center;gap:5px}
+.small-window .phase svg{width:18px;height:20px}
+.small-window .pip-time{font-weight:850;font-size:37px;line-height:1.25;letter-spacing:.5px}
+.mini-track{width:124px;height:4px;background:#ffffff30;border-radius:3px;margin-top:8px;overflow:hidden}
+.mini-track i{display:block;height:100%;background:#fff9efcc;width:100%;border-radius:3px}
+.window-controls{display:flex;gap:12px;margin-top:6px}
+.window-controls button{background:none;color:#fff;font-size:10px;padding:3px}
+.lock-stage{background:radial-gradient(ellipse at 85% 10%,#6f7e8d,#28384a 55%,#162337);color:#fff}
+.lock-clock{text-align:center;margin-top:65px;font-size:66px;font-weight:300;letter-spacing:-3px}
+.lock-date{text-align:center;font-size:12px;color:#d1dae2;margin-top:0}
+.lock-card{position:absolute;bottom:66px;left:22px;right:22px;border-radius:20px;padding:17px;background:#edf3faed;color:#27364b;box-shadow:0 8px 24px #050d1918}
+.lock-card small{font-size:10px;color:#687991}
+.lock-card b{font-size:15px;display:block;margin:8px 0}
+.lock-card .pip-time{font-size:26px;font-weight:750;letter-spacing:.5px}
+.lock-actions{display:flex;gap:12px;margin-top:12px}
+.lock-actions button{color:#466780;background:transparent;font-size:11px;padding:4px 0}
+.lock-foot{position:absolute;bottom:23px;width:100%;text-align:center;font-size:10px;color:#b9c6d4}
+@media(max-width:700px){.continuity-grid{grid-template-columns:1fr}.context-stage{height:430px}}
+.pip{width:180px;height:135px;padding:12px;background:linear-gradient(145deg,#ff7160,#ff594b);color:#fff}.pip small{font-size:10px}.pip b{font-size:37px;font-weight:850;letter-spacing:.5px}.pip button{color:#fff;font-size:10px}
+.small-window,.pip{--ink:#fffdfc;--sub:#ffe8e3;--ring:#fffcf7;--leaf:#bbf1b9;--fruitLight:#ff8b6b;--fruitMid:#f64c3e;--fruitDeep:#e33b43;--fruitShadow:#a92737}
+.small-window{width:168px;height:168px;background:radial-gradient(ellipse at top left,#ff8d7066,transparent),#ff594b;overflow:hidden;border-radius:19px}
+.small-figure{position:relative;width:154px;height:168px;color:#fff;flex-shrink:0}
+.small-figure>svg{position:absolute;inset:0;width:100%;height:100%}
+.small-window .pip-time,.pip .pip-time{position:absolute;top:54%;left:50%;transform:translate(-50%,-50%);font-size:33px;font-weight:850;letter-spacing:.5px;line-height:1;white-space:nowrap}
+.small-window .phase,.pip .phase{position:absolute;top:68%;left:0;width:100%;display:block;text-align:center;font-size:8px;letter-spacing:.4px}
+.window-controls{position:absolute;inset:auto 0 0;margin:0;padding:4px 0;justify-content:center;background:#17243999;opacity:0;transition:opacity .2s}
+.small-window:hover .window-controls,.small-window:focus-within .window-controls{opacity:1}
+.window-controls button{font-size:15px;min-width:44px;min-height:28px;padding:0;color:#fff}
+.lock-stage{background:radial-gradient(ellipse at 90% 5%,#818aa4,#37485c 55%,#1a2b40)}
+.lock-card{background:#fffdf9f2;color:#303449;padding:13px 17px 11px;border-radius:24px;box-shadow:0 9px 27px #09192a14}
+.lock-app-label{display:flex;align-items:center;gap:6px;color:#858997}
+.lock-brand-dot{width:7px;height:7px;background:#ff594b;border-radius:50%}
+.lock-app-label small{font-size:10px;flex:1;color:#858997}
+.lock-chevron{font-size:15px;color:#a0a4af}
+.lock-content{display:flex;align-items:center;gap:13px;margin-top:10px}
+.lock-fruit{width:50px;height:50px;flex-shrink:0}
+.lock-fruit svg{width:100%;height:100%}
+.lock-readout b{margin:0 0 2px;font-size:10px;color:#888e9e;font-weight:500}
+.lock-readout .pip-time{font-size:27px;font-weight:800;letter-spacing:.5px}
+.lock-actions{margin-top:10px;padding-left:63px;gap:22px}
+.lock-actions button{color:#cf5549;font-size:11px;font-weight:650}
+.pip{width:180px;height:180px;padding:0;overflow:hidden;background:#ff594b;display:none}
+.pip .small-figure{width:164px;height:180px;margin:auto}
+.pip>button{position:absolute;bottom:2px;background:#17243977;border-radius:8px;padding:3px 8px;color:#fff}
+.pip>.pip-toggle{left:10px}.pip>.pip-close{right:10px}
+.lock-card{border-radius:27px;background:#fffdfbf5;padding:14px 18px 13px}.lock-content{gap:12px;margin-top:11px}.lock-fruit{width:85px;height:85px}.lock-readout b{color:#ce6758;font-size:11px;font-weight:650;margin:0 0 5px}.lock-readout .pip-time{font-size:31px;letter-spacing:.5px}.lock-kind-note{font-size:10px;color:#9293a1;margin:6px 0 0}.lock-actions{padding-left:97px;margin-top:9px}.lock-app-label small{color:#858997}
+.red-lock{--ring:#fffcf7;--leaf:#bbf1b9;--ink:#fffdfc;--fruitLight:#ff8b6b;--fruitMid:#f64c3e;--fruitDeep:#e33b43;--fruitShadow:#a92737;width:238px;left:50%;right:auto;transform:translateX(-50%);bottom:46px;background:radial-gradient(ellipse at top left,#ff947066,transparent),#ff594b;color:white;padding:13px 16px 10px;border-radius:28px;box-shadow:0 10px 30px #141d3520}
+.red-lock .lock-app-label small{font-size:11px;font-weight:700;color:#fff9f6}.lock-state{font-size:9px;color:#ffe9e4}.red-lock-face{position:relative;width:180px;height:196px;margin:-7px auto -2px}.red-lock-face>svg{position:absolute;width:100%;height:100%;inset:0}.red-lock .pip-time{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);font-size:39px;font-weight:850;line-height:1;letter-spacing:.5px;color:white;white-space:nowrap}.red-lock .lock-actions{padding:0;margin:0;gap:0;justify-content:space-around}.red-lock .lock-actions button{color:#fff4ef;font-size:10px;padding:5px}.lock-clock{margin-top:49px}
+.lock-stage .lock-date{display:none}
+.red-lock{width:auto;left:22px;right:22px;transform:none;bottom:66px;padding:13px 18px 12px;border-radius:24px}
+.red-lock .lock-app-label>span{font-size:9px;color:#ffe7e1}
+.red-lock-body{display:flex;align-items:center;gap:13px;margin:2px 0}
+.red-lock-art{width:86px;height:94px;position:relative;flex-shrink:0}
+.red-lock-art>svg{width:100%;height:100%;overflow:visible}
+.red-lock-readout{display:flex;flex-direction:column}
+.red-lock .pip-time{position:static;transform:none;font-size:35px;line-height:1.15;margin:4px 0}
+.red-lock-readout p{font-size:10px;color:#ffe5df;margin:3px 0 0}
+.red-lock .lock-actions{padding-left:99px;justify-content:flex-start;gap:22px}
+.settings-showcase{max-width:1120px;margin:0 auto 55px;padding:0 24px;display:flex;align-items:center;gap:62px;justify-content:center}
+.settings-caption{max-width:350px}.settings-caption small{font-size:11px;color:#8990a4;letter-spacing:2px}.settings-caption h2{font-size:32px;letter-spacing:-1.5px;line-height:1.4;margin:16px 0}.settings-caption p{font-size:13px;line-height:1.9;color:#7d8295}
+.settings-phone{--bg:#fff7f4;--ink:#303449;--sub:#7d8295;--sheet:#fffdfc;--track:#f3f4f8;--red:#ff594b;flex-shrink:0;background:#fff7f4}
+.settings-phone.dark{--bg:#171c2e;--ink:#f8faff;--sub:#b5c1dd;--sheet:#242d45;--track:#303a55;--red:#a6efd7;background:#171c2e}
+.settings-head{padding:16px 24px 20px;position:relative}.settings-head small{font-size:9px;letter-spacing:2px;color:var(--sub)}.settings-head h2{font-size:28px;margin:7px 0;letter-spacing:-1px}.settings-head p{font-size:11px;color:var(--sub);margin:0}
+.settings-mark{position:absolute;right:22px;top:23px;width:57px;height:57px;transform:rotate(12deg)}.settings-mark svg{width:100%;height:100%}
+.settings-content{overflow:auto;flex:1;padding:0 16px 10px;scrollbar-width:thin;scrollbar-color:#ffc5bc transparent}
+.settings-card{border-radius:22px;background:var(--sheet);padding:17px;margin-bottom:12px;border:1px solid #e8deda44}
+.settings-card h3{font-size:12px;margin:0 0 13px;color:var(--ink);display:flex;align-items:center;gap:7px}.settings-card h3 span{color:var(--red);font-size:15px}
+.setting-pills{display:flex;gap:5px;flex-wrap:wrap}.setting-pills button{background:var(--track);color:var(--sub);border-radius:12px;padding:10px 11px;font-size:10px;font-weight:650;flex:1;white-space:nowrap}.setting-pills button.on{background:var(--red);color:#fff}.dark .setting-pills button.on{color:#1d3441}
+.setting-hint{font-size:9px;line-height:1.6;color:var(--sub);margin:10px 0 0}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:13px;font-size:11px;color:var(--ink)}.setting-row small{display:block;color:var(--sub);font-size:9px;margin-top:3px}
+.stepper{display:flex;align-items:center;gap:10px}.stepper button{width:28px;height:28px;border-radius:10px;background:var(--track);color:var(--ink);font-size:17px}.stepper output{font-size:12px;min-width:35px;text-align:center;font-weight:700}
+.switch{width:35px;height:21px;border-radius:13px;background:#d9dce6;padding:3px;display:flex;align-items:center;flex-shrink:0}.switch:before{content:"";width:15px;height:15px;border-radius:50%;background:white;box-shadow:0 1px 3px #0001}.switch[aria-checked=true]{background:var(--red)}.switch[aria-checked=true]:before{transform:translateX(14px)}
+.setting-volume{width:100%;accent-color:#ff594b;margin:14px 0 0}
+.settings-phone>.settings-footer{padding:0 18px;background:var(--sheet);color:var(--ink);border-radius:22px 22px 0 0}
+@media(max-width:750px){.settings-showcase{flex-direction:column;gap:20px}.settings-caption{width:100%;max-width:354px}.settings-caption h2{font-size:25px}.settings-phone{max-width:100%}}
+.red-lock{padding:13px 18px 15px}.red-lock-body{display:grid;grid-template-columns:70px minmax(0,1fr) 88px;align-items:center;gap:14px;margin-top:7px}.red-lock-art{width:70px;height:78px}.red-lock .pip-time{font-size:46px;line-height:1.12;margin:4px 0 0;letter-spacing:.5px}.red-lock .lock-state{font-size:10px;color:#ffe9e3}.red-lock .lock-actions{padding:0;margin:0;display:flex;gap:8px;align-items:center;justify-content:flex-end}.red-lock .lock-actions button{width:40px;height:40px;min-width:40px;padding:10px;border-radius:50%;background:#ffffff24;display:grid;place-items:center}.red-lock .lock-actions svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.red-lock .lock-actions button:hover{background:#ffffff38}@media(max-width:700px){.red-lock-body{grid-template-columns:50px minmax(0,1fr) 72px;gap:8px}.red-lock-art{width:50px;height:64px}.red-lock .pip-time{font-size:34px}.red-lock .lock-actions{gap:6px}.red-lock .lock-actions button{width:33px;height:33px;min-width:33px;padding:7px}}
+.setting-volume{appearance:none;height:4px;border-radius:4px;background:#e7e9f0;outline:none}.setting-volume::-webkit-slider-thumb{appearance:none;width:14px;height:14px;border-radius:50%;background:#ff594b;border:2px solid white;box-shadow:0 1px 4px #ff594b25}.dark .setting-volume{background:#3c4868}
+@media(max-width:420px){.board,.continuity,.info,.settings-showcase{padding-left:16px;padding-right:16px}header{padding:0 16px}}
+/* 10.22 refinement v3
+   Lock card is one text line: tomato · time · two round buttons, all exactly the same height.
+   Every piece sits on the text baseline and is 1cap tall (the height of the digits), so the
+   tops and bottoms line up in any browser and font. No small labels. */
+.red-lock{padding:18.5px 22px 17.5px;bottom:74px}
+.red-lock-body{display:block;margin:0;white-space:nowrap;color:#fff;font-size:64px;font-weight:850;letter-spacing:.5px;line-height:1.2}
+/* The tomato is round too: its visible height (leaf tip to bottom) is 1.2× the digits, like the buttons, same centre. */
+.red-lock-art{display:inline-block;vertical-align:-.134cap;overflow:hidden;width:calc(1.2cap * 300 / 282);height:calc(1.2cap * 330 / 282);margin:0 .2em 0 0}
+.red-lock-art>svg{display:block;width:100%;height:100%}
+/* Optical nudge: next to the round tomato and buttons the digits read slightly low, so lift them 5% of their height. */
+/* Digits are 93% of the row size so they sit just inside the round tomato and buttons; same centre (+5% optical lift). */
+.red-lock .pip-time{display:inline-block;vertical-align:baseline;position:relative;top:-.088cap;left:0;right:auto;bottom:auto;transform:none;margin:0;height:auto;font:inherit;font-size:.93em;line-height:inherit;letter-spacing:inherit;width:calc(100% - 3.957cap - .452em)}
+.red-lock .lock-actions{display:inline;padding:0;margin:0;gap:0}
+/* Round shapes look smaller than flat-topped digits of the same height, so the circles are
+   1.2× the digit height and stick out equally above and below (optical size, same centre). */
+.red-lock .lock-actions button{display:inline-block;vertical-align:-.1cap;overflow:hidden;position:relative;width:1.2cap;height:1.2cap;min-width:0;padding:0;margin:0;border-radius:50%;background:#ffffff2e;font:inherit}
+.red-lock .lock-actions button+button{margin-left:.22em}
+.red-lock .lock-actions svg{position:absolute;left:28%;top:28%;width:44%;height:44%}
+@media(max-width:700px){.red-lock{left:14px;right:14px;padding:16.5px 16px 15.5px}.red-lock-body{font-size:44px}}
+.context-title{font-size:13px}
+/* Night tomato: the same bright ripe red as the day tomato. */
+.timer.dark{--fruitLight:#ff8b6b;--fruitMid:#f64c3e;--fruitDeep:#e33b43;--fruitShadow:#a92737;--ring:#fffcf7;--leaf:#a6efd7}
+.dark .face .label{color:#ffe1da}
+/* Theme button: moon in day (switch to night), sun in night (switch to day). */
+.theme-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.theme-btn .i-sun{display:none}
+.dark .theme-btn .i-moon{display:none}
+.dark .theme-btn .i-sun{display:block}
+/* Lock card sparkles: kept in the empty margins (between time and buttons, corners). They twinkle softly on the web;
+   on Android the notification shows them still. */
+.red-lock .lock-sparkles{position:absolute;inset:0;pointer-events:none;border-radius:inherit;overflow:hidden}
+.red-lock-body{position:relative;z-index:1}
+.red-lock .sp{position:absolute;display:block}
+.red-lock .sp svg{width:100%;height:100%;display:block}
+.red-lock .sp-star{width:15px;height:15px;top:7px;right:166px;fill:#fff0ba}
+.red-lock .sp-small{width:8px;height:8px;bottom:8px;right:154px;fill:#fff0ba}
+.red-lock .sp-plus{width:10px;height:10px;top:8px;right:12px}
+.red-lock .sp-dot{width:5px;height:5px;border-radius:50%;background:#cfc4ff;bottom:10px;left:88px}
+.red-lock .sp-mint{width:8px;height:8px;top:9px;left:10px;fill:#bbf1b9}
+@media(max-width:700px){.red-lock .sp-star{width:12px;height:12px;top:6px;right:112px}.red-lock .sp-small{right:104px;bottom:6px}.red-lock .sp-plus{width:8px;height:8px;top:6px;right:9px}.red-lock .sp-dot{left:60px;bottom:7px}.red-lock .sp-mint{top:6px;left:7px}}
+@media(prefers-reduced-motion:no-preference){
+ .red-lock .sp{animation:twinkle 2.8s ease-in-out infinite}
+ .red-lock .sp-small{animation-delay:.7s}.red-lock .sp-plus{animation-delay:1.3s}.red-lock .sp-dot{animation-delay:.4s;animation-duration:3.4s}.red-lock .sp-mint{animation-delay:1.9s}
+}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.72)}}
+
+/* Readability: small text gets bigger; the line on the red ground becomes a soft chip with white text. */
+.hero-meta{width:max-content;max-width:100%;font-size:13px;font-weight:650;color:var(--ink);background:#500a1024;padding:6px 12px;border-radius:999px;gap:7px}
+.dark .hero-meta{background:#ffffff14}
+.hero-meta .dot{width:6px;height:6px}
+.bottom .harvest small{font-size:12px}
+.bottom .duration{font-size:12px}
+.bottom .harvest small,.bottom .duration,.sound em{color:#6b7084}
+.dark .bottom .harvest small,.dark .bottom .duration,.dark .sound em{color:#b1bcd6}
+.sound strong{font-size:12px}.sound em{font-size:11px}
+.nav button{font-size:11px}
+.record p,.note{font-size:12px}.stats small{font-size:11px}.day span{font-size:12px}
+.eyebrow,.settings-head small{font-size:11px}
+.settings-head p{font-size:12px}
+.setting-hint,.setting-row small{font-size:11px}
+.setting-pills button{font-size:11px}
+.setting-row{font-size:12px}
+body{word-break:keep-all;overflow-wrap:break-word}
+/* Small window: tap the tomato to start or pause. No extra buttons. */
+.tap-toggle{font:inherit;color:inherit;cursor:pointer;padding:0;border:0;text-align:center}
+.small-window.tap-toggle{display:flex;align-items:center;justify-content:center}
+.small-window .small-figure,.pip .small-figure{display:block;background:none}
+.tap-toggle:active .small-figure>svg,.tap-toggle.small-figure:active>svg{transform:scale(.96)}
+.small-figure>svg{transition:transform .15s}
+.pip .pip-close{position:absolute;top:6px;right:8px;bottom:auto;left:auto;width:26px;height:26px;padding:0;border-radius:50%;background:#17243955;color:#fff;font-size:16px;line-height:26px}
+</style>
+<header><div><small>DOMADORO / DESIGN EDITION</small><h1>한 알의 집중. 산뜻한 하루.</h1><p>부드러운 빛, 탐스러운 토마토, 다시 반짝이는 작은 장식들.</p></div><p>01 — TIMER &nbsp; / &nbsp; 02 — NIGHT &nbsp; / &nbsp; 03 — BASKET</p></header>
+<div class="board"><section><p class="caption">01 &nbsp; TOMATO CLUB</p><div class="phone timer" id="light"></div></section><section><p class="caption">02 &nbsp; AFTER HOURS</p><div class="phone timer dark" id="dark"></div></section><section><p class="caption">03 &nbsp; YOUR HARVEST</p><div class="phone" id="basket"></div></section></div>
+
+<section class="settings-showcase" id="settings-section"><div class="settings-caption"><small>04 / MAKE IT YOURS</small><h2>집중도 휴식도,<br>내 페이스대로.</h2><p>시간, 사운드, 알림을 한곳에.<br>아래 설정 탭을 누르면 이 화면으로 이동해요.<br>시간 버튼과 스위치도 직접 눌러볼 수 있어요.</p></div><div class="phone settings-phone" id="settings"></div></section>
+<section class="continuity" id="continuity">
+<h2>작아져도, 도마도로답게.</h2>
+<p>홈 화면·다른 앱에서는 작은 창으로, 잠그면 시스템 알림으로 이어집니다.<br>아래는 표시 방식의 디자인 모형입니다. 실제 창의 위치·조작 버튼·잠금화면 알림 모양은 Android와 기기 설정에 따라 달라집니다.</p>
+<div class="continuity-grid">
+<div class="context-stage"><span class="context-title">01 &nbsp; 원본 토마토 작은 창 · PIP</span><div class="mock-app"><h3>오늘의 작은 요리</h3><p>레시피를 보면서도, 내 페이스대로.</p><div class="recipe-picture" aria-hidden="true">🥗</div><div class="mock-lines"></div></div><button class="small-window timer tap-toggle" onclick="toggle()" aria-label="작은 창: 눌러서 시작"><span class="small-figure" data-pip-art><b class="pip-time">25:00</b></span></button></div>
+<div class="context-stage lock-stage"><span class="context-title" style="color:#d2dde8">02 &nbsp; 잠금화면 · 펼친 알림 디자인</span><div class="lock-clock">09:41</div><div class="lock-date">나를 위한 작은 집중</div><div class="lock-card red-lock timer"><span class="lock-sparkles" aria-hidden="true"><i class="sp sp-star"><svg viewBox="0 0 24 24"><path d="M12 1Q12.6 11.4 23 12Q12.6 12.6 12 23Q11.4 12.6 1 12Q11.4 11.4 12 1Z"/></svg></i><i class="sp sp-small"><svg viewBox="0 0 24 24"><path d="M12 1Q12.6 11.4 23 12Q12.6 12.6 12 23Q11.4 12.6 1 12Q11.4 11.4 12 1Z"/></svg></i><i class="sp sp-plus"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18" fill="none" stroke="#bbf1b9" stroke-width="4" stroke-linecap="round"/></svg></i><i class="sp sp-dot"></i><i class="sp sp-mint"><svg viewBox="0 0 24 24"><path d="M12 1Q12.6 11.4 23 12Q12.6 12.6 12 23Q11.4 12.6 1 12Q11.4 11.4 12 1Z"/></svg></i></span><div class="red-lock-body"><span class="red-lock-art" data-red-lock></span><span class="pip-time">25:00</span><span class="lock-actions"><button class="lock-toggle" onclick="toggle()" aria-label="시작"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="lock-toggle-ico" d="m8 5 11 7-11 7Z"/></svg></button><button onclick="previewSkip()" aria-label="잠금화면 건너뛰기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 5 10 7-10 7Z"/><path d="M19 5v14"/></svg></button></span></div></div></div>
+</div></section>
+<div class="info">디자인 확인용 웹 미리보기입니다. 시작·일시정지·초기화·테마 전환·사운드를 눌러볼 수 있어요. 바구니 기록은 예시 데이터이며 작은 창은 화면 안에서 보여주는 모형입니다.<br>Android 프로젝트에는 동일한 팔레트와 구성 요소를 적용했습니다. 기기 글꼴 및 시스템 여백에 따라 표현이 조금 달라질 수 있어요.</div><div class="pip"><small>도마도로 · 집중 중</small><br><b class="pip-time">25:00</b><br><button onclick="toggle()">재생 / 멈춤</button> · <button onclick="this.closest('.pip').style.display='none'">닫기</button></div>
+<script>
+const icons={timer:'<circle cx="12" cy="13" r="8"/><path d="M9 2h6M12 5V2m0 7v5l3 2"/>',basket:'<path d="M3 9h18l-2 12H5L3 9zm4 0 5-7 5 7M9 12v5m6-5v5"/>',settings:'<circle cx="12" cy="12" r="4"/><path d="m10 2 4 0 1 3 3 1 3 3-2 3 2 3-3 3-3 1-1 3h-4l-1-3-3-1-3-3 2-3-2-3 3-3 3-1z"/>'};
+function svg(p){return '<svg viewBox="0 0 24 24">'+p+'</svg>'}
+function tomato(on=true){
+const body='M12 8C8 5 2 8 2 15C2 21 7 24 12 22.5C17 24 22 21 22 15C22 8 16 5 12 8Z';
+return '<svg viewBox="0 0 24 26" aria-hidden="true"><path d="'+body+'" fill="'+(on?'var(--harvestRed,#f65342)':'none')+'" stroke="'+(on?'none':'var(--emptyFruit,#ddc6c0)')+'" stroke-width="1.3"/><path d="M12 8 6 5.5 9.5 5 10 2.5 12.5 5 17.5 3.8 15.5 7 18 9 13 8.1 10 10Z" fill="'+(on?'var(--harvestLeaf,#409b6d)':'var(--emptyFruit,#ddc6c0)')+'"/><path d="M12 6Q11.5 3 13.5 1.8" fill="none" stroke="'+(on?'var(--harvestLeaf,#409b6d)':'var(--emptyFruit,#ddc6c0)')+'" stroke-width="1.3" stroke-linecap="round"/></svg>'
+}
+function nav(active){return '<nav class="nav">'+[['timer','타이머'],['basket','바구니'],['settings','설정']].map(([key,label])=>'<button class="'+(key===active?'selected':'')+'" aria-label="'+label+'" onclick="navTo(\''+key+'\',this)">'+svg(icons[key])+label+'</button>').join('')+'</nav><div class="gesture"></div>'}
+let dialId=0;
+function dial(){
+const id='fruit'+(++dialId);
+return `<svg viewBox="0 0 300 330" aria-hidden="true">
+<defs>
+<linearGradient id="${id}skin" x1="10%" y1="0%" x2="90%" y2="100%"><stop stop-color="var(--fruitLight)"/><stop offset=".48" stop-color="var(--fruitMid)"/><stop offset="1" stop-color="var(--fruitDeep)"/></linearGradient>
+<radialGradient id="${id}gloss" cx="23%" cy="18%" r="80%"><stop stop-color="#fff" stop-opacity=".27"/><stop offset=".65" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<linearGradient id="${id}leaf" x2="70%" y2="100%"><stop stop-color="#e1ffd0"/><stop offset="1" stop-color="var(--leaf)"/></linearGradient>
+<filter id="${id}shadow" x="-.25" y="-.25" width="1.5" height="1.6"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="var(--fruitShadow)" flood-opacity=".13"/></filter>
+<filter id="${id}soft" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="5"/></filter><path id="${id}body" d="M150 68C205 42 290 81 289 174C294 269 220 322 150 307C80 322 6 269 11 174C10 81 95 42 150 68Z"/>
+</defs>
+<ellipse cx="155" cy="307" rx="94" ry="11" fill="var(--fruitShadow)" opacity=".06" filter="url(#${id}soft)"/>
+<path d="M19 58Q72 1 141 23" fill="none" stroke="#fff" stroke-opacity=".25" stroke-dasharray="2 6" stroke-linecap="round"/>
+<path d="M20 28 23 36 31 39 23 42 20 50 17 42 9 39 17 36Z" fill="#fff1b7" transform="rotate(-12 20 39)"/>
+<path d="M277 51 280 59 288 62 280 65 277 73 274 65 266 62 274 59Z" fill="var(--leaf)"/>
+<circle cx="289" cy="243" r="4" fill="#cfc4ff"/><circle cx="6" cy="236" r="2.5" fill="#fff4ca" opacity=".8"/>
+<use href="#${id}body" fill="url(#${id}skin)" filter="url(#${id}shadow)"/>
+<use href="#${id}body" fill="url(#${id}gloss)" stroke="#fff" stroke-opacity=".12" stroke-width="1.1"/>
+<path d="M36 138Q39 105 63 91" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="13" stroke-linecap="round" filter="url(#${id}soft)"/>
+<path d="M247 247Q229 281 199 287" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="3" stroke-linecap="round"/>
+<path d="M188.65 73.81A113 113 0 1 1 111.35 73.81" fill="none" stroke="#200b25" opacity=".12" stroke-width="7" stroke-linecap="round"/>
+<path class="progress" d="M188.65 73.81A113 113 0 1 1 111.35 73.81" fill="none" stroke="var(--ring)" stroke-opacity=".80" stroke-width="7" stroke-linecap="round" stroke-dasharray="631.1" stroke-dashoffset="0"/>
+<path d="M150 63C132 44 115 40 99 45C109 60 131 63 148 65C132 68 121 78 120 90C138 89 148 78 151 69C160 84 173 89 184 87C179 72 165 65 155 65C175 63 195 57 203 43C180 38 162 47 150 63Z" fill="url(#${id}leaf)"/>
+<path d="M150 62Q148 37 165 24" stroke="var(--leaf)" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M151 63Q174 49 191 47" stroke="#fff" stroke-opacity=".2" stroke-width="1.4" fill="none"/>
+</svg>`;
+}
+let running=false,remaining=1500,end=0,noise=null,ctx=null,previewGain=null;
+function renderTimer(id){document.getElementById(id).innerHTML=`<div class="status"><span>9:41</span><span>▂▄▆ &nbsp; ▰</span></div><div class="main"><div class="brand"><div><h2>도마도로</h2></div><button class="icon theme-btn" onclick="toggleTheme(this)"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg></button><button class="icon" aria-label="작은 창 미리보기" onclick="document.querySelector('.pip').style.display='block'">▣</button></div><span class="header-spark" aria-hidden="true"><svg viewBox="0 0 60 60"><path d="M29 5Q30 27 50 29Q30 30 29 52Q28 30 7 29Q28 28 29 5" fill="#fff0ba"/><path d="M50 1v12M44 7h12" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round"/><circle cx="51" cy="47" r="3" fill="#cfc4ff"/></svg></span><h3 class="hero-title">딱 하나에,<br>푹 빠질 시간.</h3><p class="hero-meta"><span class="dot"></span> 오늘의 첫 번째 몰입 &nbsp;·&nbsp; 집중</p><div class="face">${dial()}<div class="digits"><div class="time">25:00</div></div></div></div><div class="bottom"><div class="harvest"><div><small>오늘의 수확</small><strong>0개의 토마토</strong></div><div class="tomatoes">${Array.from({length:5},()=>tomato(false)).join('')}</div></div><p class="duration">집중 25분 &nbsp; / &nbsp; 휴식 5분</p><div class="actions"><button class="reset" aria-label="처음부터" onclick="reset()">↻</button><button class="start" onclick="toggle()">▶ &nbsp; 집중 시작</button></div><button class="sound" onclick="sound(this)">${svg('<path d="M11 4 6 9H2v6l5 5V4m4 4q6 4 0 8m3-11q9 7 0 14"/>')}<div><strong>백색소음</strong></div><em>OFF</em></button>${nav('timer')}</div>`}
+function syncThemeButtons(){document.querySelectorAll('.theme-btn').forEach(b=>{const dark=b.closest('.phone').classList.contains('dark');b.setAttribute('aria-label',dark?'낮 모드로 바꾸기':'밤 모드로 바꾸기')})}
+function toggleTheme(btn){btn.closest('.phone').classList.toggle('dark');syncThemeButtons()}
+function renderBasket(){document.getElementById('basket').innerHTML='<div class="status"><span>9:41</span><span>▂▄▆ &nbsp; ▰</span></div><div class="record"><div class="eyebrow">MY LITTLE HARVEST</div><h2>내 바구니</h2><p>최근 7일 · 예시 기록</p><div class="total">18<small>개의 토마토</small></div><p>차곡차곡, 7시간 30분의 몰입</p><div class="record-panel"><h3>이번 주에는 이만큼 자랐어요</h3><div class="week">'+[2,3,1,4,3,2,3].map((n,i)=>'<div class="day">'+Array.from({length:n},()=>tomato()).join('')+'<span>'+['목','금','토','일','월','화','수'][i]+'</span></div>').join('')+'</div><div class="stats"><div><small>하루 평균</small><b>2.6개</b></div><div><small>최고의 날</small><b>일 4개</b></div><div><small>연속 기록</small><b>7일</b></div></div><div class="note">크지 않아도 괜찮아요.<br>오늘의 작은 집중이 차곡차곡 쌓이고 있어요.</div></div></div><div class="record-bottom">'+nav('basket')+'</div>'}
+function navTo(key,el){document.getElementById(key==='settings'?'settings-section':key==='basket'?'basket':'light').scrollIntoView({behavior:'smooth',block:'center'});}
+
+let focusMinutes=25,restMinutes=5;
+const previewPrefs={theme:'day',sound:true,vibrate:true,autoNext:false,noiseOn:false,noiseType:'rain',volume:.35,breakOff:true};
+try{const saved=JSON.parse(localStorage.getItem('domadoro-preview-settings'));if(saved){focusMinutes=Math.max(1,Math.min(120,Number(saved.focusMinutes)||25));restMinutes=Math.max(0,Math.min(30,Number(saved.restMinutes)||0));for(const key of Object.keys(previewPrefs)){if(key in saved)previewPrefs[key]=saved[key];}previewPrefs.noiseOn=false;remaining=focusMinutes*60;}}catch{}
+
+function persistSettings(){try{localStorage.setItem('domadoro-preview-settings',JSON.stringify({focusMinutes,restMinutes,...previewPrefs}))}catch{}}
+function switchControl(key,label,hint=''){return '<div class="setting-row"><div>'+label+(hint?'<small>'+hint+'</small>':'')+'</div><button class="switch" role="switch" aria-label="'+label+'" aria-checked="'+previewPrefs[key]+'" onclick="flipSetting(&quot;'+key+'&quot;)"></button></div>'}
+function renderSettings(){
+document.getElementById('settings').innerHTML='<div class="status"><span>9:41</span><span>▂▄▆ ▰</span></div><div class="settings-head"><small>MAKE IT YOURS</small><h2>설정</h2><p>나에게 맞는 속도로, 한 알씩.</p><div class="settings-mark">'+tomato(true)+'</div></div><div class="settings-content"><div class="settings-card"><h3><span>◷</span> 집중과 휴식</h3><div class="setting-pills">'+[[25,5],[50,10],[90,15]].map(([x,y])=>'<button class="'+(focusMinutes===x&&restMinutes===y?'on':'')+'" onclick="setDuration('+x+','+y+')">'+x+' / '+y+'분</button>').join('')+'</div><div class="setting-row"><span>집중</span><div class="stepper"><button aria-label="집중 시간 줄이기" onclick="setDuration(Math.max(1,focusMinutes-1),restMinutes)">−</button><output>'+focusMinutes+'분</output><button aria-label="집중 시간 늘리기" onclick="setDuration(Math.min(120,focusMinutes+1),restMinutes)">+</button></div></div><div class="setting-row"><span>휴식</span><div class="stepper"><button aria-label="휴식 시간 줄이기" onclick="setDuration(focusMinutes,Math.max(0,restMinutes-1))">−</button><output>'+restMinutes+'분</output><button aria-label="휴식 시간 늘리기" onclick="setDuration(focusMinutes,Math.min(30,restMinutes+1))">+</button></div></div><p class="setting-hint">시작 전 시간에 반영돼요. 진행 중인 타이머는 유지됩니다.</p></div><div class="settings-card"><h3><span>☾</span> 화면 테마</h3><div class="setting-pills">'+[['auto','자동'],['day','토마토 낮'],['night','포근한 밤']].map(([k,l])=>'<button class="'+(previewPrefs.theme===k?'on':'')+'" onclick="setPreviewTheme(&quot;'+k+'&quot;)">'+l+'</button>').join('')+'</div></div><div class="settings-card"><h3><span>♫</span> 집중 사운드</h3>'+switchControl('noiseOn','백색소음')+'<div class="setting-pills" style="margin-top:13px">'+[['white','백색'],['rain','빗소리'],['brown','깊은 소음'],['wave','파도']].map(([k,l])=>'<button class="'+(previewPrefs.noiseType===k?'on':'')+'" onclick="setNoiseType(&quot;'+k+'&quot;)">'+l+'</button>').join('')+'</div><input class="setting-volume" type="range" min="0" max="1" step=".05" value="'+previewPrefs.volume+'" aria-label="백색소음 음량" oninput="setVolume(this.value)">'+switchControl('breakOff','휴식에는 사운드 쉬기')+'</div><div class="settings-card"><h3><span>✦</span> 끝날 때 알려주기</h3>'+switchControl('sound','알림 소리')+switchControl('vibrate','진동','브라우저·기기 지원에 따라 달라요')+switchControl('autoNext','다음 단계 자동 시작')+'</div><div class="settings-card"><h3><span>▣</span> 앱 밖에서도 이어서</h3><p class="setting-hint">다른 앱에서는 토마토 작은 창으로, 잠금화면에서는 빨간 가로 알림으로 이어져요. 웹에서는 디자인 모형을 보여줍니다.</p><div class="setting-pills" style="margin-top:12px"><button onclick="document.getElementById(&quot;continuity&quot;).scrollIntoView({behavior:&quot;smooth&quot;})">작은 창 · 잠금화면 보기 ↗</button></div></div></div><div class="settings-footer">'+nav('settings')+'</div>';
+}
+function setDuration(f,r){const old=previewPhase==='rest'?restMinutes*60:focusMinutes*60;focusMinutes=f;restMinutes=r;if(!running&&remaining===old)remaining=(previewPhase==='rest'?r:f)*60;document.querySelectorAll('.duration').forEach(e=>e.textContent='집중 '+f+'분 / 휴식 '+r+'분');persistSettings();renderSettings();draw();}
+function flipSetting(k){previewPrefs[k]=!previewPrefs[k];if(k==='noiseOn'){if(Boolean(noise)!==previewPrefs.noiseOn)sound();}persistSettings();renderSettings();}
+function setPreviewTheme(k){previewPrefs.theme=k;const dark=k==='night'||(k==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);document.querySelectorAll('.phone.timer,.settings-phone').forEach(e=>e.classList.toggle('dark',dark));syncThemeButtons();persistSettings();renderSettings();}
+function setNoiseType(k){previewPrefs.noiseType=k;if(noise){sound();sound();}persistSettings();renderSettings();}
+function setVolume(value){previewPrefs.volume=Number(value);if(previewGain)previewGain.gain.value=previewPrefs.volume*.5;persistSettings();}
+
+function toggle(){if(running){remaining=Math.max(0,Math.ceil((end-Date.now())/1000));running=false}else{end=Date.now()+remaining*1000;running=true}draw()}
+function reset(){running=false;remaining=(previewPhase==='rest'?restMinutes:focusMinutes)*60;draw()}
+let previewPhase='focus';
+function previewSkip(){previewPhase=previewPhase==='focus'?'rest':'focus';running=false;remaining=(previewPhase==='rest'?restMinutes:focusMinutes)*60;draw();document.querySelectorAll('.hero-meta').forEach(e=>e.innerHTML='<span class="dot"></span> '+(previewPhase==='rest'?'지금은 충전 중 &nbsp;·&nbsp; 휴식':'오늘의 첫 번째 몰입 &nbsp;·&nbsp; 집중'));document.querySelectorAll('.label').forEach(e=>e.textContent=previewPhase==='rest'?'REST & RECHARGE':'STAY IN YOUR FLOW');}
+function draw(){document.querySelectorAll('.lock-toggle-ico').forEach(e=>e.setAttribute('d',running?'M8 6v12M16 6v12':'m8 5 11 7-11 7Z'));document.querySelectorAll('.lock-toggle').forEach(e=>e.setAttribute('aria-label',running?'잠깐 멈추기':'시작'));document.querySelectorAll('.tap-toggle').forEach(e=>e.setAttribute('aria-label',running?'작은 창: 눌러서 멈추기':'작은 창: 눌러서 시작'));document.querySelectorAll('.mini-track i').forEach(e=>e.style.width=(100*Math.min(1,remaining/(previewPhase==='rest'?restMinutes*60:focusMinutes*60)))+'%');const txt=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');document.querySelectorAll('.time,.pip-time').forEach(e=>e.textContent=txt);document.querySelectorAll('.start').forEach(e=>e.textContent=running?'Ⅱ  잠깐 멈추기':(previewPhase==='rest'?'▶  휴식 시작':'▶  집중 시작'));document.querySelectorAll('.progress').forEach(e=>e.style.strokeDashoffset=631.1*(1-Math.min(1,remaining/(previewPhase==='rest'?restMinutes*60:focusMinutes*60))))}
+function previewChime(){const ac=ctx||(ctx=new(window.AudioContext||window.webkitAudioContext)());ac.resume();[660,880,1100].forEach((freq,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=freq;g.gain.setValueAtTime(.08,ac.currentTime+i*.15);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+i*.15+.3);o.connect(g).connect(ac.destination);o.start(ac.currentTime+i*.15);o.stop(ac.currentTime+i*.15+.3);});}
+function sound(){if(noise){noise.stop();noise=null;document.querySelectorAll('.sound em').forEach(e=>e.textContent='OFF');previewPrefs.noiseOn=false;renderSettings();return}ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();ctx.resume();const buffer=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);const data=buffer.getChannelData(0);let last=0;for(let i=0;i<data.length;i++){const white=Math.random()*2-1;last=(last+white*.02)/1.02;data[i]=previewPrefs.noiseType==='white'?white*.35:previewPrefs.noiseType==='rain'?(white*.2+last):previewPrefs.noiseType==='wave'?last*3*(.5+.5*Math.sin(i/ctx.sampleRate*Math.PI)):last*3.5}noise=ctx.createBufferSource();noise.buffer=buffer;noise.loop=true;const gain=ctx.createGain();previewGain=gain;gain.gain.value=previewPrefs.volume*.5;noise.connect(gain).connect(ctx.destination);noise.start();document.querySelectorAll('.sound em').forEach(e=>e.textContent='ON');previewPrefs.noiseOn=true;renderSettings();}
+document.querySelector('[data-pip-art]').insertAdjacentHTML('afterbegin',dial());
+document.querySelector('[data-red-lock]').insertAdjacentHTML('afterbegin',dial());
+
+
+document.querySelector('.pip').innerHTML=`<button class="small-figure tap-toggle" onclick="toggle()" aria-label="작은 창: 눌러서 시작">${dial()}<b class="pip-time">25:00</b></button><button class="pip-close" aria-label="작은 창 닫기" onclick="this.parentElement.style.display='none'">×</button>`;
+renderTimer('light');renderTimer('dark');syncThemeButtons();renderBasket();renderSettings();document.querySelectorAll('.duration').forEach(e=>e.textContent='집중 '+focusMinutes+'분 / 휴식 '+restMinutes+'분');draw();setInterval(()=>{if(running){remaining=Math.max(0,Math.ceil((end-Date.now())/1000));if(!remaining){running=false;if(previewPrefs.sound)previewChime();if(previewPrefs.vibrate&&navigator.vibrate)navigator.vibrate([150,100,150]);previewSkip();if(previewPrefs.autoNext)toggle();}draw()}},250);
+</script>
+<style>
+/* ===== 앱 모드: 화면 하나만, 바로 쓰기 ===== */
+body.app{background:#F1F3F8;min-height:100dvh}
+body.app header,body.app .caption,body.app .settings-caption,body.app #continuity,body.app .info,body.app .board>section:nth-child(2){display:none!important}
+body.app .board,body.app .settings-showcase{display:block;padding:0;margin:0;max-width:none;gap:0}
+body.app .board>section,body.app .settings-showcase{margin:0;padding:0}
+body.app .screen-off{display:none!important}
+body.app .phone{width:100%;max-width:440px;height:100vh;height:100dvh;margin:0 auto;border:0;border-radius:0;box-shadow:none}
+body.app .status{visibility:hidden;height:max(12px,env(safe-area-inset-top));padding:0}
+body.app .settings-card:last-child{display:none}
+body.app .nav{padding-bottom:max(9px,env(safe-area-inset-bottom))}
+body.app .gesture{display:none}
+body.app #basket .record{display:flex;flex-direction:column}
+body.app #basket .record-panel{height:auto;flex:1}
+@media (min-width:600px) and (min-height:780px){
+ body.app .phone{height:min(860px,calc(100dvh - 48px));margin:24px auto;border-radius:38px;box-shadow:0 18px 60px #51412b18}
+}
+</style>
+<script>
+/* ===== 앱 모드 ===== */
+document.body.classList.add('app');
+const SCREENS={timer:document.getElementById('light').closest('section'),basket:document.getElementById('basket').closest('section'),settings:document.getElementById('settings-section')};
+navTo=function(key){for(const k in SCREENS)SCREENS[k].classList.toggle('screen-off',k!==key);if(key==='basket')renderBasket();try{localStorage.setItem('domadoro-tab',key)}catch{}window.scrollTo(0,0)};
+
+/* 수확 기록: 이 브라우저 안에만 저장 */
+function dayKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function loadHarvest(){try{return JSON.parse(localStorage.getItem('domadoro-harvest'))||{}}catch{return {}}}
+function saveHarvest(h){try{localStorage.setItem('domadoro-harvest',JSON.stringify(h))}catch{}}
+let harvest=loadHarvest();
+function recordHarvest(){const k=dayKey(new Date());const d=harvest[k]||{n:0,m:0};d.n++;d.m+=focusMinutes;harvest[k]=d;saveHarvest(harvest);updateHarvest();renderBasket()}
+function updateHarvest(){const n=(harvest[dayKey(new Date())]||{n:0}).n;document.querySelectorAll('.harvest strong').forEach(e=>e.textContent=n+'개의 토마토');document.querySelectorAll('.harvest .tomatoes').forEach(e=>e.innerHTML=Array.from({length:5},(_,i)=>tomato(i<n)).join(''))}
+const _skip=previewSkip;
+previewSkip=function(){if(previewPhase==='focus'&&remaining===0)recordHarvest();_skip()};
+renderBasket=function(){
+ const days=[],W=['일','월','화','수','목','금','토'];
+ for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const r=harvest[dayKey(d)]||{n:0,m:0};days.push({w:W[d.getDay()],n:r.n,m:r.m})}
+ const total=days.reduce((a,d)=>a+d.n,0),mins=days.reduce((a,d)=>a+d.m,0);
+ const best=days.reduce((b,d)=>d.n>b.n?d:b,{n:0});
+ let streak=0;for(let i=0;;i++){const d=new Date();d.setDate(d.getDate()-i);const r=harvest[dayKey(d)];if(r&&r.n)streak++;else if(i>0||streak>0)break;if(i>400)break}
+ const h=Math.floor(mins/60),m=mins%60,time=(h?h+'시간 ':'')+(m||!h?m+'분':'');
+ const max=Math.max(4,best.n);
+ document.getElementById('basket').innerHTML='<div class="status"><span>9:41</span><span></span></div><div class="record"><div class="eyebrow">MY LITTLE HARVEST</div><h2>내 바구니</h2><p>최근 7일</p><div class="total">'+total+'<small>개의 토마토</small></div><p>'+(total?'차곡차곡, '+time+'의 몰입':'아직 딴 토마토가 없어요')+'</p><div class="record-panel"><h3>이번 주에는 이만큼 자랐어요</h3><div class="week">'+days.map(d=>'<div class="day">'+Array.from({length:Math.min(d.n,6)},()=>tomato()).join('')+(d.n>6?'<b style="font-size:11px">+'+(d.n-6)+'</b>':'')+'<span>'+d.w+'</span></div>').join('')+'</div><div class="stats"><div><small>하루 평균</small><b>'+(Math.round(total/7*10)/10)+'개</b></div><div><small>최고의 날</small><b>'+(best.n?best.w+' '+best.n+'개':'-')+'</b></div><div><small>연속 기록</small><b>'+streak+'일</b></div></div><div class="note">'+(total?'크지 않아도 괜찮아요.<br>오늘의 작은 집중이 차곡차곡 쌓이고 있어요.':'집중을 끝까지 마치면 토마토 한 알을 따요.<br>첫 토마토를 따러 가볼까요?')+'</div></div></div><div class="record-bottom">'+nav('basket')+'</div>'
+};
+renderBasket();updateHarvest();setPreviewTheme(previewPrefs.theme);
+let startTab='timer';try{startTab=localStorage.getItem('domadoro-tab')||'timer'}catch{}
+navTo(SCREENS[startTab]?startTab:'timer');
+document.title='도마도로';
+</script>

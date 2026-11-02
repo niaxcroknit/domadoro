@@ -5,32 +5,8 @@
 <h1 align="center">도마도로</h1>
 
 <p align="center">
-  토마토 한 알에 25분.<br>
-  다른 앱을 쓰면서도 작은 창으로 보는 집중 타이머
+  <a href="https://niaxcroknit.github.io/domadoro/"><b>▶ 도마도로 바로 열기</b></a>
 </p>
-
-<p align="center">
-  <img src="play-store/feature-graphic-1024x500.png" width="720" alt="도마도로">
-</p>
-
-## 화면
-
-| 타이머 | 작은 창 | 잠금화면 |
-| :---: | :---: | :---: |
-| <img src="play-store/screenshots/01-timer.png" width="240"> | <img src="play-store/screenshots/02-small-window.png" width="240"> | <img src="play-store/screenshots/03-lock-screen.png" width="240"> |
-| **밤 테마** | **내 바구니** | **설정** |
-| <img src="play-store/screenshots/04-night.png" width="240"> | <img src="play-store/screenshots/05-basket.png" width="240"> | <img src="play-store/screenshots/06-settings.png" width="240"> |
-
-## 이런 앱이에요
-
-- **다른 앱을 쓰면서도 계속**: 홈으로 나가면 토마토 모양 작은 창이 구석에 떠요.
-- **잠금화면에서도 한눈에**: 빨간 알림 카드에 남은 시간이 크게, 바로 멈추고 건너뛰기.
-- **화면을 안 봐도 알 수 있게**: 집중 끝과 휴식 끝의 소리·진동 리듬이 달라요.
-- **토마토 수확**: 집중을 끝까지 마칠 때마다 한 알씩. 최근 7일 바구니로 기록 확인.
-- **백색소음**: 백색소음·빗소리·깊은 소음·파도.
-- **낮·밤 테마**: 코랄과 아이보리, 네이비와 민트.
-
-광고 없음 · 회원가입 없음 · 모든 기록은 휴대폰 안에만.
 
 ## Android Studio에서 열기
 
