@@ -314,13 +314,13 @@ function renderBasket(){document.getElementById('basket').innerHTML='<div class=
 function navTo(key,el){document.getElementById(key==='settings'?'settings-section':key==='basket'?'basket':'light').scrollIntoView({behavior:'smooth',block:'center'});}
 
 let focusMinutes=25,restMinutes=5;
-const previewPrefs={theme:'day',sound:true,vibrate:true,autoNext:false,keepAwake:true,noiseOn:false,noiseType:'rain',volume:.35,breakOff:true};
+const previewPrefs={theme:'day',sound:true,vibrate:true,autoNext:false,keepAwake:false,lockAlarm:true,noiseOn:false,noiseType:'rain',volume:.35,breakOff:true};
 try{const saved=JSON.parse(localStorage.getItem('domadoro-preview-settings'));if(saved){focusMinutes=Math.max(1,Math.min(120,Number(saved.focusMinutes)||25));restMinutes=Math.max(0,Math.min(30,Number(saved.restMinutes)||0));for(const key of Object.keys(previewPrefs)){if(key in saved)previewPrefs[key]=saved[key];}previewPrefs.noiseOn=false;remaining=focusMinutes*60;}}catch{}
 
 function persistSettings(){try{localStorage.setItem('domadoro-preview-settings',JSON.stringify({focusMinutes,restMinutes,...previewPrefs}))}catch{}}
 function switchControl(key,label,hint=''){return '<div class="setting-row"><div>'+label+(hint?'<small>'+hint+'</small>':'')+'</div><button class="switch" role="switch" aria-label="'+label+'" aria-checked="'+previewPrefs[key]+'" onclick="flipSetting(&quot;'+key+'&quot;)"></button></div>'}
 function renderSettings(){
-document.getElementById('settings').innerHTML='<div class="status"><span>9:41</span><span>▂▄▆ ▰</span></div><div class="settings-head"><small>MAKE IT YOURS</small><h2>설정</h2><p>나에게 맞는 속도로, 한 알씩.</p><div class="settings-mark">'+tomato(true)+'</div></div><div class="settings-content"><div class="settings-card"><h3><span>◷</span> 집중과 휴식</h3><div class="setting-pills">'+[[25,5],[50,10],[90,15]].map(([x,y])=>'<button class="'+(focusMinutes===x&&restMinutes===y?'on':'')+'" onclick="setDuration('+x+','+y+')">'+x+' / '+y+'분</button>').join('')+'</div><div class="setting-row"><span>집중</span><div class="stepper"><button aria-label="집중 시간 줄이기" onclick="setDuration(Math.max(1,focusMinutes-1),restMinutes)">−</button><output>'+focusMinutes+'분</output><button aria-label="집중 시간 늘리기" onclick="setDuration(Math.min(120,focusMinutes+1),restMinutes)">+</button></div></div><div class="setting-row"><span>휴식</span><div class="stepper"><button aria-label="휴식 시간 줄이기" onclick="setDuration(focusMinutes,Math.max(0,restMinutes-1))">−</button><output>'+restMinutes+'분</output><button aria-label="휴식 시간 늘리기" onclick="setDuration(focusMinutes,Math.min(30,restMinutes+1))">+</button></div></div><p class="setting-hint">시작 전 시간에 반영돼요. 진행 중인 타이머는 유지됩니다.</p></div><div class="settings-card"><h3><span>☾</span> 화면 테마</h3><div class="setting-pills">'+[['auto','자동'],['day','토마토 낮'],['night','포근한 밤']].map(([k,l])=>'<button class="'+(previewPrefs.theme===k?'on':'')+'" onclick="setPreviewTheme(&quot;'+k+'&quot;)">'+l+'</button>').join('')+'</div></div><div class="settings-card"><h3><span>♫</span> 집중 사운드</h3>'+switchControl('noiseOn','백색소음')+'<div class="setting-pills" style="margin-top:13px">'+[['white','백색'],['rain','빗소리'],['brown','깊은 소음'],['wave','파도']].map(([k,l])=>'<button class="'+(previewPrefs.noiseType===k?'on':'')+'" onclick="setNoiseType(&quot;'+k+'&quot;)">'+l+'</button>').join('')+'</div><input class="setting-volume" type="range" min="0" max="1" step=".05" value="'+previewPrefs.volume+'" aria-label="백색소음 음량" oninput="setVolume(this.value)">'+switchControl('breakOff','휴식에는 사운드 쉬기')+'</div><div class="settings-card"><h3><span>✦</span> 끝날 때 알려주기</h3>'+switchControl('sound','알림 소리')+switchControl('vibrate','진동','브라우저·기기 지원에 따라 달라요')+switchControl('autoNext','다음 단계 자동 시작')+switchControl('keepAwake','타이머 도는 동안 화면 켜두기','화면이 꺼지면 웹에서는 끝 알림이 울리지 않아요')+'</div><div class="settings-card"><h3><span>▣</span> 앱 밖에서도 이어서</h3><p class="setting-hint">다른 앱에서는 토마토 작은 창으로, 잠금화면에서는 빨간 가로 알림으로 이어져요. 웹에서는 디자인 모형을 보여줍니다.</p><div class="setting-pills" style="margin-top:12px"><button onclick="document.getElementById(&quot;continuity&quot;).scrollIntoView({behavior:&quot;smooth&quot;})">작은 창 · 잠금화면 보기 ↗</button></div></div></div><div class="settings-footer">'+nav('settings')+'</div>';
+document.getElementById('settings').innerHTML='<div class="status"><span>9:41</span><span>▂▄▆ ▰</span></div><div class="settings-head"><small>MAKE IT YOURS</small><h2>설정</h2><p>나에게 맞는 속도로, 한 알씩.</p><div class="settings-mark">'+tomato(true)+'</div></div><div class="settings-content"><div class="settings-card"><h3><span>◷</span> 집중과 휴식</h3><div class="setting-pills">'+[[25,5],[50,10],[90,15]].map(([x,y])=>'<button class="'+(focusMinutes===x&&restMinutes===y?'on':'')+'" onclick="setDuration('+x+','+y+')">'+x+' / '+y+'분</button>').join('')+'</div><div class="setting-row"><span>집중</span><div class="stepper"><button aria-label="집중 시간 줄이기" onclick="setDuration(Math.max(1,focusMinutes-1),restMinutes)">−</button><output>'+focusMinutes+'분</output><button aria-label="집중 시간 늘리기" onclick="setDuration(Math.min(120,focusMinutes+1),restMinutes)">+</button></div></div><div class="setting-row"><span>휴식</span><div class="stepper"><button aria-label="휴식 시간 줄이기" onclick="setDuration(focusMinutes,Math.max(0,restMinutes-1))">−</button><output>'+restMinutes+'분</output><button aria-label="휴식 시간 늘리기" onclick="setDuration(focusMinutes,Math.min(30,restMinutes+1))">+</button></div></div><p class="setting-hint">시작 전 시간에 반영돼요. 진행 중인 타이머는 유지됩니다.</p></div><div class="settings-card"><h3><span>☾</span> 화면 테마</h3><div class="setting-pills">'+[['auto','자동'],['day','토마토 낮'],['night','포근한 밤']].map(([k,l])=>'<button class="'+(previewPrefs.theme===k?'on':'')+'" onclick="setPreviewTheme(&quot;'+k+'&quot;)">'+l+'</button>').join('')+'</div></div><div class="settings-card"><h3><span>♫</span> 집중 사운드</h3>'+switchControl('noiseOn','백색소음')+'<div class="setting-pills" style="margin-top:13px">'+[['white','백색'],['rain','빗소리'],['brown','깊은 소음'],['wave','파도']].map(([k,l])=>'<button class="'+(previewPrefs.noiseType===k?'on':'')+'" onclick="setNoiseType(&quot;'+k+'&quot;)">'+l+'</button>').join('')+'</div><input class="setting-volume" type="range" min="0" max="1" step=".05" value="'+previewPrefs.volume+'" aria-label="백색소음 음량" oninput="setVolume(this.value)">'+switchControl('breakOff','휴식에는 사운드 쉬기')+'</div><div class="settings-card"><h3><span>✦</span> 끝날 때 알려주기</h3>'+switchControl('sound','알림 소리')+switchControl('vibrate','진동','브라우저·기기 지원에 따라 달라요')+switchControl('autoNext','다음 단계 자동 시작')+switchControl('lockAlarm','화면 꺼져도 끝 알림','잠금화면에 재생 카드가 떠요. 다른 앱에서 음악을 틀면 꺼져요')+switchControl('keepAwake','타이머 도는 동안 화면 켜두기')+'</div><div class="settings-card"><h3><span>▣</span> 앱 밖에서도 이어서</h3><p class="setting-hint">다른 앱에서는 토마토 작은 창으로, 잠금화면에서는 빨간 가로 알림으로 이어져요. 웹에서는 디자인 모형을 보여줍니다.</p><div class="setting-pills" style="margin-top:12px"><button onclick="document.getElementById(&quot;continuity&quot;).scrollIntoView({behavior:&quot;smooth&quot;})">작은 창 · 잠금화면 보기 ↗</button></div></div></div><div class="settings-footer">'+nav('settings')+'</div>';
 }
 function setDuration(f,r){const old=previewPhase==='rest'?restMinutes*60:focusMinutes*60;focusMinutes=f;restMinutes=r;if(!running&&remaining===old)remaining=(previewPhase==='rest'?r:f)*60;document.querySelectorAll('.duration').forEach(e=>e.textContent='집중 '+f+'분 / 휴식 '+r+'분');persistSettings();renderSettings();draw();}
 function flipSetting(k){previewPrefs[k]=!previewPrefs[k];if(k==='noiseOn'){if(Boolean(noise)!==previewPrefs.noiseOn)sound();}persistSettings();renderSettings();}
@@ -449,4 +449,75 @@ setInterval(()=>{if(!running&&wakeLock)syncWake()},1000);
 
 /* 홈 화면 앱 */
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+<script>
+/* ===== 화면이 꺼져도 끝 알림: 남은 시간만큼의 소리 트랙 + 끝 알림음 =====
+   아이폰은 화면이 꺼지면 코드를 멈추지만, 재생 중인 소리는 끝까지 틀어줘요.
+   그래서 시작할 때 "남은 시간 동안 무음(또는 백색소음) → 끝에 알림음" 트랙을 만들어 틀어요. */
+const track=new Audio();track.setAttribute('playsinline','');track.preload='auto';
+let trackUrl=null,trackOn=false,trackNoise=false,ownPause=false,justFinished=null;
+const iconUrl=new URL('play-store/icon-512.png',location.href).href;
+const CHIMES={
+ focus:[[660,0,.35],[880,.18,.35],[1100,.36,.6],[660,1.0,.35],[880,1.18,.35],[1100,1.36,.8]],
+ rest:[[1100,0,.4],[880,.3,.6],[1100,.9,.4],[880,1.2,.8]]
+};
+function noiseWanted(){return previewPrefs.noiseOn&&!(previewPhase==='rest'&&previewPrefs.breakOff)}
+function buildWav(sec,phase,withNoise,lead){
+ const sr=8000,len=Math.ceil((sec+4)*sr),buf=new ArrayBuffer(44+len),v=new DataView(buf),d=new Uint8Array(buf,44);
+ const str=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};
+ str(0,'RIFF');v.setUint32(4,36+len,true);str(8,'WAVE');str(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+ v.setUint32(24,sr,true);v.setUint32(28,sr,true);v.setUint16(32,1,true);v.setUint16(34,8,true);str(36,'data');v.setUint32(40,len,true);
+ const clamp=x=>x>127?127:x<-127?-127:x;
+ if(withNoise){
+  const amp=Math.min(.9,previewPrefs.volume*.9),type=previewPrefs.noiseType;let last=0;
+  for(let i=0;i<len;i++){const w=Math.random()*2-1;last=(last+w*.02)/1.02;
+   const x=type==='white'?w*.35:type==='rain'?w*.2+last*2:type==='wave'?last*3*(.5+.5*Math.sin(i/sr*Math.PI/4)):last*3.5;
+   d[i]=128+Math.round(clamp(x*amp*127))}
+ }else d.fill(128);
+ const tones=(start,pattern)=>{for(const [f,t,dur] of pattern){const o=Math.round(start+t*sr),n=Math.round(dur*sr);
+  for(let k=0;k<n&&o+k<len;k++){const env=Math.exp(-k/sr*6)*(k<80?k/80:1);d[o+k]=128+Math.round(clamp(d[o+k]-128+Math.sin(2*Math.PI*f*k/sr)*.55*env*127))}}};
+ if(previewPrefs.sound){if(lead)tones(0,CHIMES[lead]);tones(sec*sr,CHIMES[phase])}
+ return new Blob([buf],{type:'audio/wav'});
+}
+function applyNoiseGain(){if(previewGain)previewGain.gain.value=(trackOn&&trackNoise)?0:previewPrefs.volume*.5}
+function mmss(r){return String(Math.floor(r/60)).padStart(2,'0')+':'+String(r%60).padStart(2,'0')}
+function updateSession(sec){
+ if(!('mediaSession' in navigator)||typeof MediaMetadata==='undefined')return;const ms=navigator.mediaSession;
+ const art=[{src:iconUrl,sizes:'512x512',type:'image/png'}];
+ if(trackOn){const e=new Date(Date.now()+sec*1000);
+  ms.metadata=new MediaMetadata({title:(previewPhase==='rest'?'휴식 중':'집중 중')+' · 도마도로',artist:String(e.getHours()).padStart(2,'0')+':'+String(e.getMinutes()).padStart(2,'0')+'에 끝나요',album:'도마도로',artwork:art});
+  ms.playbackState='playing';try{ms.setPositionState({duration:sec+4,playbackRate:1,position:0})}catch{}
+ }else{ms.metadata=new MediaMetadata({title:'멈춤 · 도마도로',artist:mmss(nowRemaining())+' 남음',album:'도마도로',artwork:art});ms.playbackState='paused'}
+}
+function startTrack(lead){
+ if(!previewPrefs.lockAlarm){stopTrack();return}
+ const sec=nowRemaining();if(sec<=0)return;
+ trackNoise=noiseWanted();
+ if(trackUrl)URL.revokeObjectURL(trackUrl);
+ trackUrl=URL.createObjectURL(buildWav(sec,previewPhase,trackNoise,lead));
+ track.src=trackUrl;trackOn=true;
+ const p=track.play();if(p&&p.catch)p.catch(()=>{trackOn=false;trackNoise=false;applyNoiseGain()});
+ applyNoiseGain();updateSession(sec);
+}
+function stopTrack(){if(trackOn){ownPause=true;track.pause();ownPause=false}const was=trackOn;trackOn=false;trackNoise=false;applyNoiseGain();if(was)updateSession()}
+function syncTrack(lead){if(running)startTrack(lead);else stopTrack()}
+track.addEventListener('pause',()=>{if(!ownPause&&!track.ended){trackOn=false;trackNoise=false;applyNoiseGain()}});
+track.addEventListener('ended',()=>{trackOn=false;trackNoise=false;applyNoiseGain()});
+
+// 기존 동작에 연결
+const _t2=toggle;toggle=function(){_t2();const lead=justFinished;justFinished=null;syncTrack(lead)};
+const _r2=reset;reset=function(){_r2();stopTrack()};
+const _s2=previewSkip;previewSkip=function(){const natural=remaining===0,phase=previewPhase;_s2();
+ if(natural&&trackOn){trackOn=false;trackNoise=false;applyNoiseGain();justFinished=phase;setTimeout(()=>{justFinished=null},4000)} // 끝 알림음은 끝까지 울리게 둬요
+ else stopTrack()};
+const _c2=previewChime;previewChime=function(){if(trackOn)return;_c2()}; // 트랙이 이미 울려요
+const _n2=sound;sound=function(){_n2();if(running&&previewPrefs.lockAlarm)startTrack();else applyNoiseGain()};
+const _v2=setVolume;setVolume=function(x){_v2(x);applyNoiseGain()};
+const _f2=flipSetting;flipSetting=function(k){_f2(k);if(k==='lockAlarm'||k==='sound')syncTrack()};
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&running&&previewPrefs.lockAlarm&&!trackOn)startTrack()});
+
+// 잠금화면 재생 카드 버튼
+if('mediaSession' in navigator){const ms=navigator.mediaSession;const h=(a,f)=>{try{ms.setActionHandler(a,f)}catch{}};
+ h('play',()=>{if(!running)toggle()});h('pause',()=>{if(running)toggle()});
+ h('nexttrack',()=>previewSkip());h('previoustrack',null);h('seekto',null);h('seekbackward',null);h('seekforward',null);}
 </script>
