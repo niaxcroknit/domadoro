@@ -391,7 +391,7 @@ navTo(SCREENS[startTab]?startTab:'timer');
 document.title='도마도로';
 </script>
 <script src="vendor/mp4-muxer.js"></script>
-<video id="pipVideo" playsinline muted autoplay style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none"></video>
+<video id="pipVideo" playsinline webkit-playsinline muted autoplay style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none"></video>
 <script>
 /* ===== 진짜 작은 창: 타이머를 그린 영상을 PIP로 띄워요 (아이폰 Safari·Android Chrome) ===== */
 const pipCanvas=document.createElement('canvas');pipCanvas.width=480;pipCanvas.height=480;
@@ -574,8 +574,8 @@ function syncVideo(force){
  if(!running&&!pipVideo.paused){own();pipVideo.pause()}
 }
 // 작은 창의 ⏯ 버튼 = 타이머 멈춤·재개
-pipVideo.addEventListener('pause',()=>{if(Date.now()<ownMediaUntil||!vidKey||!inPip()||pipVideo.ended)return;if(running)toggle()});
-pipVideo.addEventListener('play',()=>{if(Date.now()<ownMediaUntil||!vidKey||!inPip())return;if(!running)toggle()});
+pipVideo.addEventListener('pause',()=>{if(Date.now()<ownMediaUntil||!vidKey||!(inPip()||cardOn())||pipVideo.ended)return;if(running)toggle()});
+pipVideo.addEventListener('play',()=>{if(Date.now()<ownMediaUntil||!vidKey||!(inPip()||cardOn()))return;if(!running)toggle()});
 // 돌아왔을 때 작은 창에서 멈춘 걸 반영
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){useVideo();syncVideo(true)}});
 
@@ -598,4 +598,48 @@ openSmallWindow=(function(prev){return function(){
 setInterval(()=>{if(document.visibilityState==='visible')syncVideo(false)},500);
 // 처음 열 때 집중 영상, 조금 뒤 휴식 영상도 미리
 setTimeout(()=>{ensureVideos();setTimeout(()=>{if(canEncode())buildVideo(previewPhase==='rest'?'focus':'rest',(previewPhase==='rest'?focusMinutes:restMinutes)*60)},4000)},600);
+</script>
+<style>
+.pipcard{position:fixed;right:16px;bottom:calc(100px + env(safe-area-inset-bottom));width:184px;border-radius:24px;overflow:hidden;background:#FF594B;box-shadow:0 14px 40px #a5213040;z-index:30;display:none;color:#fff}
+.pipcard.on{display:block}
+.pipcard video{display:block;width:184px!important;height:184px!important;opacity:1!important;position:static!important;pointer-events:auto!important;background:#FF594B;object-fit:cover}
+.pipcard-x{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#0003;color:#fff;font-size:18px;line-height:32px;z-index:2}
+.pipcard-msg{font-size:13px;line-height:1.45;padding:10px 12px 12px;display:none}
+.pipcard-msg.on{display:block}
+.pipcard-msg small{display:block;font-size:12px;opacity:.85;margin-top:4px;word-break:break-all}
+</style>
+<div class="pipcard" id="pipcard"><button class="pipcard-x" aria-label="작은 창 닫기" onclick="closeCard()">×</button><div class="pipcard-msg" id="pipmsg"></div></div>
+<script>
+/* ===== ▣ 버튼: 화면에 보이는 영상 카드 → 시스템 작은 창 ===== */
+const pipcard=document.getElementById('pipcard'),pipmsg=document.getElementById('pipmsg');
+const videoHome=pipVideo.parentNode,videoNext=pipVideo.nextSibling;
+let pipErr='';
+function cardOn(){return pipcard.classList.contains('on')}
+function showCard(){if(pipVideo.parentNode!==pipcard)pipcard.insertBefore(pipVideo,pipmsg);pipVideo.setAttribute('controls','');pipcard.classList.add('on');pipmsg.classList.remove('on')}
+function closeCard(){try{if(document.pictureInPictureElement)document.exitPictureInPicture();else if(pipVideo.webkitPresentationMode==='picture-in-picture')pipVideo.webkitSetPresentationMode('inline')}catch{}
+ pipVideo.removeAttribute('controls');pipcard.classList.remove('on');videoHome.insertBefore(pipVideo,videoNext);syncVideo(true)}
+function note(where,e){pipErr=where+': '+((e&&(e.name||e.message))||e||'?')}
+function diag(){const ios=(navigator.userAgent.match(/OS (\d+)_(\d+)/)||[]).slice(1).join('.');const v=vids[keyNow()];
+ return [ios?'iOS '+ios:navigator.platform,navigator.standalone?'홈 화면 앱':'브라우저',document.pictureInPictureEnabled?'PIP 표준':'',pipVideo.webkitSupportsPresentationMode?'PIP webkit':'',canEncode()?'영상 '+(v?(typeof v==='string'?v:'준비됨'):'없음'):'영상 만들기 불가',pipErr].filter(Boolean).join(' · ')}
+function cardHint(){if(inPip())return;pipmsg.innerHTML='작은 창이 바로 안 열렸어요.<br>영상을 누르고 ⧉ 버튼을 눌러 보세요.<small>'+diag()+'</small>';pipmsg.classList.add('on')}
+function enterPip(){
+ try{
+  if(pipVideo.webkitSupportsPresentationMode&&pipVideo.webkitSupportsPresentationMode('picture-in-picture')){pipVideo.webkitSetPresentationMode('picture-in-picture');return}
+  if(document.pictureInPictureEnabled&&pipVideo.requestPictureInPicture){pipVideo.requestPictureInPicture().catch(e=>{note('pip',e);cardHint()});return}
+  note('pip','이 브라우저는 작은 창 미지원');
+ }catch(e){note('pip',e)}
+}
+openSmallWindow=function(){
+ pipErr='';showCard();
+ if(!useVideo()){ensurePipStream();if(!pipVideo.getAttribute('src')&&pipStream&&pipVideo.srcObject!==pipStream)pipVideo.srcObject=pipStream}
+ syncVideo(true);
+ if(!running){own();const pp=pipVideo.play();if(pp&&pp.catch)pp.catch(e=>note('play',e));} // 멈춤 상태여도 첫 화면이 보이게
+ enterPip();
+ if(!running)setTimeout(()=>{own();pipVideo.pause()},300);
+ setTimeout(()=>{if(!inPip())cardHint()},1500);
+};
+pipVideo.addEventListener('enterpictureinpicture',()=>pipmsg.classList.remove('on'));
+pipVideo.addEventListener('webkitpresentationmodechanged',()=>{if(inPip())pipmsg.classList.remove('on')});
+// 카드 안 재생바로 옮겨도 타이머 시간으로 되돌려요
+pipVideo.addEventListener('seeked',()=>{if(Date.now()>ownMediaUntil)syncVideo(true)});
 </script>

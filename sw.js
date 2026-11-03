@@ -1,5 +1,5 @@
 // 도마도로 웹: 한 번 열면 인터넷 없이도 열리도록 저장해 둬요.
-const CACHE = 'domadoro-v4';
+const CACHE = 'domadoro-v5';
 const FILES = ['./', './index.html', './manifest.webmanifest', './play-store/icon-512.png', './vendor/mp4-muxer.js'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))); self.clients.claim(); });
