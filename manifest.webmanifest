@@ -1,0 +1,12 @@
+{
+  "name": "도마도로",
+  "short_name": "도마도로",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FF594B",
+  "theme_color": "#FF594B",
+  "icons": [
+    { "src": "play-store/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
