@@ -390,6 +390,7 @@ let startTab='timer';try{startTab=localStorage.getItem('domadoro-tab')||'timer'}
 navTo(SCREENS[startTab]?startTab:'timer');
 document.title='도마도로';
 </script>
+<script src="vendor/mp4-muxer.js"></script>
 <video id="pipVideo" playsinline muted autoplay style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none"></video>
 <script>
 /* ===== 진짜 작은 창: 타이머를 그린 영상을 PIP로 띄워요 (아이폰 Safari·Android Chrome) ===== */
@@ -397,26 +398,23 @@ const pipCanvas=document.createElement('canvas');pipCanvas.width=480;pipCanvas.h
 const pipCtx=pipCanvas.getContext('2d');const pipVideo=document.getElementById('pipVideo');
 let pipStream=null;
 function nowRemaining(){return running?Math.max(0,Math.ceil((end-Date.now())/1000)):remaining}
-function drawPip(){
- const c=pipCtx,W=480,r=nowRemaining(),total=(previewPhase==='rest'?restMinutes:focusMinutes)*60||1;
- const g=c.createLinearGradient(0,0,W,W);g.addColorStop(0,'#ff7160');g.addColorStop(1,'#f64c3e');
- c.fillStyle=g;c.fillRect(0,0,W,W);
- // 토마토 몸통
+function drawPipFrame(c,W,r,total,label){
+ c.save();c.scale(W/480,W/480);
+ const g=c.createLinearGradient(0,0,480,480);g.addColorStop(0,'#ff7160');g.addColorStop(1,'#f64c3e');
+ c.fillStyle=g;c.fillRect(0,0,480,480);
  c.save();c.translate(240,262);c.fillStyle='#f04438';c.beginPath();c.ellipse(0,0,182,166,0,0,Math.PI*2);c.fill();
  c.fillStyle='rgba(255,255,255,.14)';c.beginPath();c.ellipse(-70,-80,62,36,-.6,0,Math.PI*2);c.fill();c.restore();
- // 남은 시간 링
  c.lineCap='round';c.lineWidth=14;c.strokeStyle='rgba(32,11,37,.14)';c.beginPath();c.arc(240,262,152,0,Math.PI*2);c.stroke();
- c.strokeStyle='#fffcf7';c.beginPath();c.arc(240,262,152,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.min(1,r/total));c.stroke();
- // 꼭지
+ c.strokeStyle='#fffcf7';c.beginPath();c.arc(240,262,152,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(0,Math.min(1,r/total)));c.stroke();
  c.fillStyle='#bbf1b9';c.beginPath();c.moveTo(240,96);c.bezierCurveTo(200,58,160,70,150,82);c.bezierCurveTo(180,104,220,104,240,104);c.bezierCurveTo(260,104,300,104,330,82);c.bezierCurveTo(320,70,280,58,240,96);c.fill();
  c.strokeStyle='#bbf1b9';c.lineWidth=12;c.beginPath();c.moveTo(240,98);c.quadraticCurveTo(236,60,262,40);c.stroke();
- // 숫자
  const t=String(Math.floor(r/60)).padStart(2,'0')+':'+String(r%60).padStart(2,'0');
  c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';
  c.font='800 92px -apple-system,"Apple SD Gothic Neo","Segoe UI",sans-serif';c.fillText(t,240,256);
  c.font='700 30px -apple-system,"Apple SD Gothic Neo","Segoe UI",sans-serif';c.fillStyle='rgba(255,255,255,.88)';
- c.fillText(running?(previewPhase==='rest'?'휴식 중':'집중 중'):'멈춤',240,342);
+ c.fillText(label,240,342);c.restore();
 }
+function drawPip(){const total=(previewPhase==='rest'?restMinutes:focusMinutes)*60||1;drawPipFrame(pipCtx,480,nowRemaining(),total,running?(previewPhase==='rest'?'휴식 중':'집중 중'):'멈춤')}
 function ensurePipStream(){if(pipStream||!pipCanvas.captureStream)return;drawPip();pipStream=pipCanvas.captureStream(4);pipVideo.srcObject=pipStream;}
 function pipSupported(){return !!pipCanvas.captureStream&&((document.pictureInPictureEnabled&&pipVideo.requestPictureInPicture)||(pipVideo.webkitSupportsPresentationMode&&pipVideo.webkitSupportsPresentationMode('picture-in-picture')))}
 function openSmallWindow(){
@@ -520,4 +518,84 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 if('mediaSession' in navigator){const ms=navigator.mediaSession;const h=(a,f)=>{try{ms.setActionHandler(a,f)}catch{}};
  h('play',()=>{if(!running)toggle()});h('pause',()=>{if(running)toggle()});
  h('nexttrack',()=>previewSkip());h('previoustrack',null);h('seekto',null);h('seekbackward',null);h('seekforward',null);}
+</script>
+<script>
+/* ===== 다른 앱에서도 계속 움직이는 작은 창 =====
+   카운트다운을 진짜 영상(mp4)으로 미리 만들어 둬요. 아이폰이 코드를 멈춰도 영상은 계속 재생돼요.
+   영상 시간 i초 = 남은 시간 (전체 - i)초. */
+const vids={};            // key → {url, total} 또는 'building'
+let vidKey=null;          // 지금 pipVideo에 올라간 영상
+let ownMediaUntil=0;
+function phaseTotal(){return (previewPhase==='rest'?restMinutes:focusMinutes)*60}
+function keyNow(){return previewPhase+'-'+phaseTotal()}
+function canEncode(){return typeof VideoEncoder!=='undefined'&&typeof VideoFrame!=='undefined'&&typeof Mp4Muxer!=='undefined'}
+async function buildVideo(phase,total){
+ const key=phase+'-'+total;if(vids[key])return;vids[key]='building';
+ try{
+  const W=360;let cfg=null,mc=null;
+  for(const [codec,m] of [['avc1.42001f','avc'],['vp09.00.10.08','vp9']]){const c={codec,width:W,height:W,bitrate:150000,framerate:1};try{if((await VideoEncoder.isConfigSupported(c)).supported){cfg=c;mc=m;break}}catch{}}
+  if(!cfg)throw 0;
+  const muxer=new Mp4Muxer.Muxer({target:new Mp4Muxer.ArrayBufferTarget(),video:{codec:mc,width:W,height:W},fastStart:'in-memory'});
+  let failed=null;
+  const enc=new VideoEncoder({output:(ch,meta)=>muxer.addVideoChunk(ch,meta),error:e=>{failed=e}});
+  enc.configure(cfg);
+  const cv=document.createElement('canvas');cv.width=W;cv.height=W;const c=cv.getContext('2d');
+  const label=phase==='rest'?'휴식 중':'집중 중';
+  const frames=total+4;
+  for(let i=0;i<frames;i++){
+   const r=Math.max(0,total-i);drawPipFrame(c,W,r,total,i>total?'끝!':label);
+   const f=new VideoFrame(cv,{timestamp:i*1e6,duration:1e6});enc.encode(f,{keyFrame:i%20===0});f.close();
+   if(failed)throw failed;
+   if(enc.encodeQueueSize>8||i%60===59)await new Promise(res=>setTimeout(res,0));
+  }
+  await enc.flush();enc.close();muxer.finalize();
+  vids[key]={url:URL.createObjectURL(new Blob([muxer.target.buffer],{type:'video/mp4'})),total};
+  if(keyNow()===key)useVideo();
+ }catch(e){vids[key]='fail'}
+}
+function ensureVideos(){if(!canEncode())return;buildVideo(previewPhase,phaseTotal());}
+function inPip(){return document.pictureInPictureElement===pipVideo||pipVideo.webkitPresentationMode==='picture-in-picture'}
+function own(){ownMediaUntil=Date.now()+800}
+function useVideo(){
+ const v=vids[keyNow()];
+ if(!v||typeof v==='string'){ // 아직 없으면 그림 스트림으로
+  if(vidKey){vidKey=null;own();pipVideo.removeAttribute('src');ensurePipStream();pipVideo.srcObject=pipStream;own();pipVideo.play().catch(()=>{})}
+  return false}
+ if(vidKey!==keyNow()){vidKey=keyNow();own();pipVideo.srcObject=null;pipVideo.src=v.url;pipVideo.load();
+  pipVideo.addEventListener('loadedmetadata',()=>syncVideo(true),{once:true})}
+ return true;
+}
+function targetTime(){const v=vids[vidKey];return Math.max(0,v.total-(running?Math.max(0,(end-Date.now())/1000):remaining))}
+function syncVideo(force){
+ if(!vidKey||!vids[vidKey]||typeof vids[vidKey]==='string'||pipVideo.readyState<1)return;
+ const t=targetTime();
+ if(force||Math.abs(pipVideo.currentTime-t)>.7){own();try{pipVideo.currentTime=t}catch{}}
+ if(running&&pipVideo.paused&&t<vids[vidKey].total+3){own();pipVideo.play().catch(()=>{})}
+ if(!running&&!pipVideo.paused){own();pipVideo.pause()}
+}
+// 작은 창의 ⏯ 버튼 = 타이머 멈춤·재개
+pipVideo.addEventListener('pause',()=>{if(Date.now()<ownMediaUntil||!vidKey||!inPip()||pipVideo.ended)return;if(running)toggle()});
+pipVideo.addEventListener('play',()=>{if(Date.now()<ownMediaUntil||!vidKey||!inPip())return;if(!running)toggle()});
+// 돌아왔을 때 작은 창에서 멈춘 걸 반영
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){useVideo();syncVideo(true)}});
+
+// 기존 동작과 연결
+const _t3=toggle;toggle=function(){_t3();useVideo();syncVideo(true)};
+const _s3=previewSkip;previewSkip=function(){_s3();ensureVideos();useVideo();syncVideo(true)};
+const _r3=reset;reset=function(){_r3();syncVideo(true)};
+const _d3=setDuration;setDuration=function(f,r){_d3(f,r);ensureVideos();useVideo();syncVideo(true)};
+openSmallWindow=(function(prev){return function(){
+ if(vidKey&&inPip()===false&&(document.pictureInPictureEnabled||pipVideo.webkitSupportsPresentationMode)){
+  syncVideo(true);
+  try{
+   if(pipVideo.requestPictureInPicture&&document.pictureInPictureEnabled){pipVideo.requestPictureInPicture().catch(()=>{try{pipVideo.webkitSetPresentationMode('picture-in-picture')}catch{}})}
+   else pipVideo.webkitSetPresentationMode('picture-in-picture');
+   return;
+  }catch(e){}
+ }
+ prev();
+}})(openSmallWindow);
+setInterval(()=>{if(document.visibilityState==='visible')syncVideo(false)},500);
+// 처음 열 때 집중 영상, 조금 뒤 휴식 영상도 미리
+setTimeout(()=>{ensureVideos();setTimeout(()=>{if(canEncode())buildVideo(previewPhase==='rest'?'focus':'rest',(previewPhase==='rest'?focusMinutes:restMinutes)*60)},4000)},600);
 </script>
