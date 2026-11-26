@@ -24,7 +24,8 @@ import kotlin.math.sin
 object Alerts {
     private const val RATE = 44_100
 
-    fun chime(ended: Phase) {
+    /** @param delayMillis 방해 금지를 막 풀었을 때 소리가 묻히지 않게 잠깐 기다렸다 울려요. */
+    fun chime(ended: Phase, delayMillis: Long = 0L) {
         val notes = if (ended == Phase.FOCUS) {
             listOf(784.0 to 0.0, 988.0 to 0.17, 1175.0 to 0.34, 1568.0 to 0.55,
                 784.0 to 1.4, 988.0 to 1.57, 1175.0 to 1.74, 1568.0 to 1.95)
@@ -34,6 +35,7 @@ object Alerts {
         }
         thread(name = "chime") {
             try {
+                if (delayMillis > 0L) Thread.sleep(delayMillis)
                 val total = ((notes.maxOf { it.second } + 1.6) * RATE).toInt()
                 val mix = FloatArray(total)
                 val noteLen = (1.5 * RATE).toInt()

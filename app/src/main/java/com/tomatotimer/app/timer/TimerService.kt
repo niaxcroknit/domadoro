@@ -78,7 +78,9 @@ class TimerService : Service() {
             try {
                 ContextCompat.startForegroundService(context, Intent(context, TimerService::class.java))
             } catch (_: Exception) {
-                // 백그라운드 시작이 막힌 드문 경우: 타이머 자체는 계속 돌고, 알람으로 끝을 알려줘요.
+                // 백그라운드 시작이 막힌 드문 경우(위젯·빠른 설정에서 시작할 때 일부 기기):
+                // 타이머 자체는 계속 돌고, 일반 알림으로 남은 시간을 보여주고, 알람으로 끝을 알려줘요.
+                Notifications.notifyTimer(context, TimerEngine.state.value)
             }
         }
     }

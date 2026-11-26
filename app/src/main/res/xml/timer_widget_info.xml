@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 홈 화면 위젯: 기본 3×1칸, 가로·세로로 늘리거나 줄일 수 있어요. 시간은 시스템이 1초마다 줄여 그려줘요. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_description"
+    android:initialLayout="@layout/widget_timer"
+    android:minWidth="180dp"
+    android:minHeight="64dp"
+    android:minResizeWidth="160dp"
+    android:minResizeHeight="64dp"
+    android:previewLayout="@layout/widget_timer"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="3"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

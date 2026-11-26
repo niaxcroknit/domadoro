@@ -6,6 +6,7 @@ import com.tomatotimer.app.sound.NoisePlayer
 import com.tomatotimer.app.timer.Notifications
 import com.tomatotimer.app.timer.Phase
 import com.tomatotimer.app.timer.TimerEngine
+import com.tomatotimer.app.widget.TimerWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -34,6 +35,13 @@ class TomatoApp : Application() {
             }
                 .distinctUntilChanged()
                 .collect { (play, type, volume) -> NoisePlayer.update(play, type, volume) }
+        }
+
+        // 하루 목표나 오늘 수확이 바뀌면 홈 화면 위젯의 '오늘 3 / 6개'도 바꿔요.
+        appScope.launch {
+            combine(Prefs.sessions, Prefs.goal) { sessions, goal -> sessions.size to goal }
+                .distinctUntilChanged()
+                .collect { TimerWidget.updateAll(this@TomatoApp) }
         }
     }
 }

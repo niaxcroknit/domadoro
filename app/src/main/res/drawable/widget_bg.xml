@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 홈 화면 위젯 배경: 잠금화면 카드와 같은 토마토 빨강 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="24dp" />
+    <gradient
+        android:angle="315"
+        android:endColor="#FF594B"
+        android:startColor="#FF7461" />
+</shape>

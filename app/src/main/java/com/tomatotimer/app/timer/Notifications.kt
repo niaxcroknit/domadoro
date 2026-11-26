@@ -46,7 +46,7 @@ object Notifications {
 
     /** 타이머가 도는 동안(또는 잠깐 멈춘 동안) 보이는 알림 */
     fun timer(context: Context, s: TimerState): Notification {
-        val title = "도마도로 · " + if (s.phase == Phase.FOCUS) "집중" else "휴식"
+        val title = "도마도로 · " + s.phaseName
         val builder = NotificationCompat.Builder(context, CHANNEL_TIMER)
             .setSmallIcon(R.drawable.ic_notify)
             .setColor(TOMATO)
@@ -87,7 +87,7 @@ object Notifications {
             setOnClickPendingIntent(R.id.notification_skip, TimerActionReceiver.pending(context, TimerActionReceiver.ACTION_SKIP))
             setImageViewBitmap(R.id.notification_tomato, if (s.phase == Phase.BREAK) restArt else focusArt)
             setTextViewText(R.id.notification_phase,
-                if (!s.isRunning) "잠깐 멈춤" else if (s.phase == Phase.BREAK) "휴식 중" else "집중 중")
+                if (!s.isRunning) "잠깐 멈춤" else "${s.phaseName} 중")
             setViewVisibility(R.id.notification_countdown, if (s.isRunning) View.VISIBLE else View.GONE)
             setViewVisibility(R.id.notification_paused, if (s.isRunning) View.GONE else View.VISIBLE)
             setTextViewText(R.id.notification_paused, s.timeText)
@@ -97,17 +97,31 @@ object Notifications {
             setChronometer(R.id.notification_countdown, deadline, null, s.isRunning)
         }
 
-    fun showFinished(context: Context, s: TimerState, autoStarted: Boolean) {
+    /**
+     * 단계가 끝났을 때 알림.
+     * @param ended 방금 끝난 단계  @param next 이어지는 단계(긴 휴식인지 알려줘요)
+     */
+    fun showFinished(context: Context, ended: TimerState, next: TimerState, autoStarted: Boolean) {
         if (!canNotify(context)) return
-        val d = Prefs.durations.value
-        val (title, text) = if (s.phase == Phase.FOCUS) {
-            "토마토 하나 수확!" to when {
-                d.restMin <= 0 -> "집중 끝. 수고했어요!"
-                autoStarted -> "휴식 ${d.restMin}분을 시작했어요."
-                else -> "집중 끝. ${d.restMin}분 쉬어가요."
+        val nextMin = (next.totalMillis / 60_000L).toInt()
+        val (title, text) = if (ended.phase == Phase.FOCUS) {
+            val goal = Prefs.goal.value
+            val today = Prefs.todayCount()
+            val label = Prefs.currentLabel.value
+            val head = when {
+                goal > 0 && today == goal -> "오늘 목표 ${goal}개 달성!"
+                label != null -> "토마토 하나 수확! · $label"
+                else -> "토마토 하나 수확!"
+            }
+            val nextName = next.phaseName
+            head to when {
+                next.phase == Phase.FOCUS -> "집중 끝. 수고했어요!"
+                autoStarted -> "$nextName ${nextMin}분을 시작했어요."
+                next.longBreak -> "집중 ${ended.cycleDone + 1}번 완료. 긴 휴식 ${nextMin}분, 푹 쉬어가요."
+                else -> "집중 끝. ${nextMin}분 쉬어가요."
             }
         } else {
-            "휴식 끝!" to if (autoStarted) "다음 집중 ${d.focusMin}분을 시작했어요." else "다음 토마토를 따러 가볼까요?"
+            "${ended.phaseName} 끝!" to if (autoStarted) "다음 집중 ${nextMin}분을 시작했어요." else "다음 토마토를 따러 가볼까요?"
         }
         val n = NotificationCompat.Builder(context, CHANNEL_DONE)
             .setSmallIcon(R.drawable.ic_notify)

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">도마도로</string>
+    <string name="widget_label">도마도로 타이머</string>
+    <string name="widget_description">남은 시간을 보고 바로 시작·멈춤</string>
+    <string name="tile_label">도마도로</string>
 </resources>

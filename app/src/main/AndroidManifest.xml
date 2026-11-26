@@ -11,6 +11,8 @@
          설정에서 허용해야 하고, 허용 전에는 몇 분 늦을 수 있는 일반 알람으로 대신해요. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 집중하는 동안 방해 금지 켜기(설정에서 켰을 때만). 사용자가 시스템 설정에서 직접 허용해야 해요. -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:name=".TomatoApp"
@@ -46,5 +48,33 @@
         <receiver
             android:name=".timer.TimerActionReceiver"
             android:exported="false" />
+
+        <!-- 홈 화면 위젯 -->
+        <receiver
+            android:name=".widget.TimerWidget"
+            android:exported="false"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timer_widget_info" />
+        </receiver>
+
+        <!-- 알림창 빠른 설정 버튼 -->
+        <service
+            android:name=".tile.TimerTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_notify"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
     </application>
 </manifest>
