@@ -103,6 +103,7 @@ class ScreenshotTest {
     }
 
     @Test fun celebration() {
+        Prefs.replaceSessionsForTest(List(6) { Session(today, 25, "공부") })
         Prefs.markCelebrated(-1L)
         app(DayPalette, Tab.TIMER)
         compose.waitForIdle()

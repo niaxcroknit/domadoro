@@ -315,7 +315,10 @@ private fun DayCell(day: Int, count: Int, level: Float, reachedGoal: Boolean, is
     val p = LocalPalette.current
     // 많이 딸수록 진한 토마토색
     val fill = if (count == 0) p.barTrack else lerp(p.full.copy(alpha = 0.28f), p.full, level.coerceIn(0f, 1f))
-    val ink = if (count > 0 && level >= 0.5f) Color.White else p.sheetInk
+    val strong = count > 0 && level >= 0.5f
+    // 밤에는 진한 칸이 밝은 분홍이라 글자를 어둡게
+    val onStrong = if (p.isDark) Color(0xFF171C2E) else Color.White
+    val ink = if (strong) onStrong else p.sheetInk
     Box(
         Modifier
             .fillMaxSize()
@@ -332,7 +335,7 @@ private fun DayCell(day: Int, count: Int, level: Float, reachedGoal: Boolean, is
                 fontWeight = if (isToday || count > 0) FontWeight.Bold else FontWeight.Medium,
             )
             if (reachedGoal) {
-                Box(Modifier.size(5.dp).clip(CircleShape).background(if (level >= 0.5f) Color.White else p.fullLeaf))
+                Box(Modifier.size(5.dp).clip(CircleShape).background(if (strong) onStrong else p.fullLeaf))
             }
         }
         if (isToday) {
@@ -343,7 +346,7 @@ private fun DayCell(day: Int, count: Int, level: Float, reachedGoal: Boolean, is
                     .width(14.dp)
                     .height(3.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(if (level >= 0.5f) Color.White else p.navOn),
+                    .background(if (strong) onStrong else p.navOn),
             )
         }
     }
