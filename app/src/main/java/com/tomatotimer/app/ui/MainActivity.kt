@@ -45,6 +45,7 @@ import com.tomatotimer.app.timer.TimerEngine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
 
@@ -82,6 +83,8 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         if (TimerEngine.state.value.isRunning) com.tomatotimer.app.timer.TimerService.start(this)
         updatePipParams()
+        // 날짜가 바뀌었을 수 있으니 위젯의 '오늘 수확'을 새로 그려요.
+        com.tomatotimer.app.widget.TimerWidget.updateAll(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -215,9 +218,20 @@ fun TomatoAppContent(
                 onPrimary = onPrimary,
                 bottomBar = bottomBar,
                 onFaceBounds = onFaceBounds,
+                onOpenSettings = { tab = Tab.SETTINGS },
             )
             Tab.BASKET -> BasketScreen(bottomBar = bottomBar)
             Tab.SETTINGS -> SettingsScreen(bottomBar = bottomBar)
+        }
+
+        // 하루 목표를 채운 날, 한 번만 축하 화면을 띄워요.
+        val sessions by Prefs.sessions.collectAsStateWithLifecycle()
+        val goal by Prefs.goal.collectAsStateWithLifecycle()
+        val celebrated by Prefs.celebratedDay.collectAsStateWithLifecycle()
+        val today = LocalDate.now().toEpochDay()
+        val todayCount = sessions.count { it.epochDay == today }
+        if (goal > 0 && todayCount >= goal && celebrated != today) {
+            GoalCelebration(goal = goal, onDismiss = { Prefs.markCelebrated(today) })
         }
     }
 }

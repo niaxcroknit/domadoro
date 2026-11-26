@@ -229,11 +229,15 @@ fun TomatoTimerFace(state: TimerState, size: Dp, label: String?) {
     }
 }
 
-/** 오늘 딴 토마토 줄. 새로 따면 마지막 토마토가 톡 튀어나와요. */
+/**
+ * 오늘 딴 토마토 줄. 새로 따면 마지막 토마토가 톡 튀어나와요.
+ * @param slots 빈 토마토까지 몇 칸 보여줄지(하루 목표가 있으면 목표 개수, 최대 8칸)
+ */
 @Composable
-fun TomatoBasketRow(count: Int) {
+fun TomatoBasketRow(count: Int, slots: Int = 5) {
     val p = LocalPalette.current
-    val slots = 5
+    val shownSlots = slots.coerceIn(1, 8)
+    val iconSize = if (shownSlots <= 5) 22.dp else 18.dp
     val pop = remember { Animatable(1f) }
     var lastCount by remember { mutableIntStateOf(count) }
     LaunchedEffect(count) {
@@ -243,10 +247,10 @@ fun TomatoBasketRow(count: Int) {
         }
         lastCount = count
     }
-    Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-        for (i in 0 until slots) {
+    Row(horizontalArrangement = Arrangement.spacedBy(if (shownSlots <= 5) 4.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
+        for (i in 0 until shownSlots) {
             val on = i < count
-            val m = if (on && i == count - 1) {
+            val m = if (on && i == minOf(count, shownSlots) - 1) {
                 Modifier.graphicsLayer { scaleX = pop.value; scaleY = pop.value }
             } else {
                 Modifier
@@ -254,12 +258,12 @@ fun TomatoBasketRow(count: Int) {
             TomatoIcon(
                 fill = if (on) p.full else p.empty,
                 leaf = if (on) p.fullLeaf else p.emptyLeaf,
-                size = 22.dp,
+                size = iconSize,
                 modifier = m,
             )
         }
-        if (count > slots) {
-            Text("+${count - slots}", color = p.sheetSub, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+        if (count > shownSlots) {
+            Text("+${count - shownSlots}", color = p.sheetSub, fontSize = 13.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

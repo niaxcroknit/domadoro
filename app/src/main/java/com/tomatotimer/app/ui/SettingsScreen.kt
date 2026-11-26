@@ -24,7 +24,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
@@ -34,6 +38,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.Lifecycle
@@ -59,7 +64,11 @@ import com.tomatotimer.app.data.Prefs
 import com.tomatotimer.app.data.ThemeMode
 import com.tomatotimer.app.sound.Alerts
 import com.tomatotimer.app.timer.Phase
+import com.tomatotimer.app.timer.FocusDnd
 import com.tomatotimer.app.timer.TimerEngine
+import com.tomatotimer.app.tile.TimerTileService
+import com.tomatotimer.app.widget.TimerWidget
+import android.widget.Toast
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -80,6 +89,17 @@ private fun SettingsContent(bottomBar: @Composable () -> Unit) {
     val d by Prefs.durations.collectAsStateWithLifecycle()
     val alerts by Prefs.alerts.collectAsStateWithLifecycle()
     val noise by Prefs.noise.collectAsStateWithLifecycle()
+    val goal by Prefs.goal.collectAsStateWithLifecycle()
+    val labels by Prefs.labels.collectAsStateWithLifecycle()
+    val focusDnd by Prefs.focusDnd.collectAsStateWithLifecycle()
+    var addingLabel by remember { mutableStateOf(false) }
+    // 시스템 설정에서 돌아올 때마다 권한 상태를 다시 확인해요.
+    var resumeTick by remember { mutableIntStateOf(0) }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { resumeTick++ }
+
+    if (addingLabel) {
+        AddLabelDialog(onDismiss = { addingLabel = false })
+    }
 
     ScreenFrame(
         sheetFills = true,
@@ -115,14 +135,14 @@ private fun SettingsContent(bottomBar: @Composable () -> Unit) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf(25 to 5, 50 to 10, 90 to 15).forEach { (f, r) ->
                         Pill("${f}분 · ${r}분", selected = d.focusMin == f && d.restMin == r) {
-                            change(Durations(f, r))
+                            change(d.copy(focusMin = f, restMin = r))
                         }
                     }
                 }
                 VSpace(6.dp)
                 StepperRow(
                     title = "집중",
-                    value = d.focusMin,
+                    valueText = "${d.focusMin}분",
                     canMinus = d.focusMin > 1,
                     canPlus = d.focusMin < 120,
                     onMinus = { change(d.copy(focusMin = if (d.focusMin > 5) d.focusMin - 5 else d.focusMin - 1)) },
@@ -130,13 +150,58 @@ private fun SettingsContent(bottomBar: @Composable () -> Unit) {
                 )
                 StepperRow(
                     title = "휴식",
-                    value = d.restMin,
+                    valueText = "${d.restMin}분",
                     canMinus = d.restMin > 0,
                     canPlus = d.restMin < 30,
                     onMinus = { change(d.copy(restMin = d.restMin - 1)) },
                     onPlus = { change(d.copy(restMin = d.restMin + 1)) },
                 )
+                StepperRow(
+                    title = "긴 휴식",
+                    valueText = "${d.longRestMin}분",
+                    canMinus = d.longRestMin > 5,
+                    canPlus = d.longRestMin < 60,
+                    onMinus = { change(d.copy(longRestMin = d.longRestMin - 5)) },
+                    onPlus = { change(d.copy(longRestMin = d.longRestMin + 5)) },
+                )
+                StepperRow(
+                    title = "긴 휴식 간격",
+                    valueText = if (d.longEvery == 0) "끄기" else "${d.longEvery}번마다",
+                    canMinus = d.longEvery > 0,
+                    canPlus = d.longEvery < 8,
+                    onMinus = { change(d.copy(longEvery = if (d.longEvery <= 2) 0 else d.longEvery - 1)) },
+                    onPlus = { change(d.copy(longEvery = if (d.longEvery == 0) 2 else d.longEvery + 1)) },
+                )
+                Hint(if (d.longEvery > 0) "집중을 ${d.longEvery}번 마칠 때마다 짧은 휴식 대신 ${d.longRestMin}분 긴 휴식이 와요."
+                    else "긴 휴식 없이 집중과 짧은 휴식만 번갈아 와요.")
                 Hint("타이머가 멈춰 있을 때 바로 반영돼요.")
+
+                Divider()
+                // ── 하루 목표
+                SectionTitle("하루 목표")
+                StepperRow(
+                    title = "토마토",
+                    valueText = if (goal == 0) "끄기" else "${goal}개",
+                    canMinus = goal > 0,
+                    canPlus = goal < Prefs.MAX_GOAL,
+                    onMinus = { Prefs.setGoal(goal - 1) },
+                    onPlus = { Prefs.setGoal(goal + 1) },
+                )
+                Hint(if (goal > 0) "타이머 화면에 오늘 몇 개 땄는지 ${goal}개 중으로 보여주고, 다 채우면 축하해 드려요."
+                    else "목표 없이 딴 개수만 보여줘요.")
+
+                Divider()
+                // ── 집중 라벨
+                SectionTitle("집중 라벨")
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    labels.forEach { label ->
+                        Pill("$label  ×", selected = false) { Prefs.removeLabel(label) }
+                    }
+                    if (labels.size < Prefs.MAX_LABELS) {
+                        Pill("+ 추가", selected = true) { addingLabel = true }
+                    }
+                }
+                Hint("타이머 화면의 '# 라벨' 버튼으로 무엇에 집중할지 골라요. 바구니에서 라벨별로 몇 개 땄는지 볼 수 있어요. 라벨을 누르면 지워져요(기록은 남아요).")
 
                 Divider()
                 // ── 끝날 때 알려주기
@@ -168,6 +233,49 @@ private fun SettingsContent(bottomBar: @Composable () -> Unit) {
                     }
                 }
                 Hint("화면이 꺼져 있어도 정해진 시각에 소리·진동과 함께 알림이 떠요.")
+
+                Divider()
+                // ── 방해 금지
+                val dndAccess = remember(resumeTick) { FocusDnd.hasAccess(context) }
+                SectionTitle("집중하는 동안 방해 금지")
+                ToggleRow(
+                    title = "방해 금지 자동으로 켜기",
+                    hint = "집중이 시작되면 방해 금지(중요한 알림만)를 켜고, 휴식·멈춤·끝나면 다시 풀어요. 직접 켜 둔 방해 금지는 건드리지 않아요.",
+                    checked = focusDnd && dndAccess,
+                ) { on ->
+                    Prefs.setFocusDnd(on)
+                    if (on && !FocusDnd.hasAccess(context)) openDndAccess(context)
+                    TimerEngine.syncFocusDnd()
+                }
+                if (focusDnd && !dndAccess) {
+                    Hint("방해 금지 권한이 아직 없어요. 목록에서 도마도로를 찾아 허용해 주세요.")
+                    VSpace(10.dp)
+                    SoftButton("방해 금지 권한 허용하기") { openDndAccess(context) }
+                }
+
+                Divider()
+                // ── 홈 화면 위젯 · 빠른 설정
+                SectionTitle("앱을 열지 않고 시작하기")
+                Hint("홈 화면 위젯과 알림창 빠른 설정 버튼에서 바로 시작·멈춤할 수 있어요.")
+                VSpace(10.dp)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    SoftButton("홈 화면에 위젯 추가") {
+                        if (!TimerWidget.canPin(context) || !TimerWidget.requestPin(context)) {
+                            Toast.makeText(context, "홈 화면을 길게 누르고 위젯 › 도마도로를 골라 주세요.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    SoftButton("빠른 설정에 추가") {
+                        if (TimerTileService.canRequestAdd()) {
+                            TimerTileService.requestAdd(context) { added ->
+                                if (!added) {
+                                    Toast.makeText(context, "알림창을 내려 연필(편집) 버튼을 누르고 도마도로를 끌어다 놓아 주세요.", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(context, "알림창을 내려 연필(편집) 버튼을 누르고 도마도로를 끌어다 놓아 주세요.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
 
                 Divider()
                 // ── 백색소음
@@ -223,8 +331,6 @@ private fun SettingsContent(bottomBar: @Composable () -> Unit) {
 
                 Divider()
                 // ── 정확한 시간 · 배터리 (설정에서 돌아올 때마다 상태를 다시 확인)
-                var resumeTick by remember { mutableIntStateOf(0) }
-                LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { resumeTick++ }
                 val exactOk = remember(resumeTick) { canScheduleExact(context) }
                 SectionTitle("정확한 시간에 알림 받기")
                 if (exactOk) {
@@ -253,6 +359,61 @@ private fun SettingsContent(bottomBar: @Composable () -> Unit) {
                 }
                 VSpace(16.dp)
             }
+        },
+    )
+}
+
+private fun openDndAccess(context: Context) {
+    runCatching { context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)) }
+        .onFailure {
+            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + context.packageName)))
+        }
+}
+
+/** 새 집중 라벨 이름을 입력하는 창 */
+@Composable
+private fun AddLabelDialog(onDismiss: () -> Unit) {
+    val p = LocalPalette.current
+    var text by remember { mutableStateOf("") }
+    val clean = Prefs.cleanLabel(text)
+    val exists = clean in Prefs.labels.value
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = p.sheet,
+        title = { Text("새 라벨", color = p.sheetInk, fontWeight = FontWeight.Bold) },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it.take(Prefs.MAX_LABEL_LENGTH) },
+                    singleLine = true,
+                    placeholder = { Text("예: 영어, 코딩, 운동") },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = p.sheetInk,
+                        unfocusedTextColor = p.sheetInk,
+                        focusedBorderColor = p.primary,
+                        cursorColor = p.primary,
+                    ),
+                )
+                VSpace(6.dp)
+                Text(
+                    if (exists) "이미 있는 라벨이에요." else "최대 ${Prefs.MAX_LABEL_LENGTH}자",
+                    color = p.sheetSub, fontSize = 13.sp,
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                enabled = clean.isNotEmpty() && !exists,
+                onClick = {
+                    if (Prefs.addLabel(clean)) Prefs.setCurrentLabel(clean)
+                    onDismiss()
+                },
+            ) { Text("추가", color = if (clean.isNotEmpty() && !exists) p.primary else p.sheetSub, fontWeight = FontWeight.Bold) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("취소", color = p.sheetSub) }
         },
     )
 }
@@ -336,7 +497,7 @@ private fun ToggleRow(title: String, hint: String, checked: Boolean, onChange: (
 @Composable
 private fun StepperRow(
     title: String,
-    value: Int,
+    valueText: String,
     canMinus: Boolean,
     canPlus: Boolean,
     onMinus: () -> Unit,
@@ -350,7 +511,7 @@ private fun StepperRow(
         Text(title, color = p.sheetInk, fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
         StepButton(R.drawable.ic_minus, "$title 시간 줄이기", canMinus, onMinus)
         Text(
-            text = "${value}분",
+            text = valueText,
             color = p.sheetInk,
             fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
