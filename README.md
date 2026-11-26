@@ -83,3 +83,5 @@ app/src/main/java/com/tomatotimer/app/
 - 앱이 시스템에 의해 종료됐다가 다시 열려도 남은 시간을 이어서 복원해요. 다만 강제 종료·재부팅 직후 자동 재개는 보장하지 않아요.
 - 실기기에서 확인해야 할 항목은 `BACKGROUND-TESTING.md`에 정리돼 있어요.
 - 시간 복원 단위 테스트: `app/src/test/.../TimerCheckpointTest.kt` (Android Studio에서 실행).
+- 화면 그림 테스트: `app/src/test/.../ui/ScreenshotTest.kt`를 실행하면 `app/build/screens/`에 화면 PNG가 생겨요.
+- GitHub에 올리면 Actions가 자동으로 빌드해요. Actions › 최근 실행 › Artifacts에서 테스트용 APK(`domadoro-debug-apk`)와 화면 그림(`domadoro-screens`)을 받을 수 있어요.

@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -31,14 +29,3 @@ jobs:
         with:
           name: domadoro-screens
           path: app/build/screens/*.png
-      # 화면 그림을 ci-screens 브랜치에도 올려서 git으로 받아 볼 수 있게 해요.
-      - name: Publish screenshots to ci-screens branch
-        if: always() && github.event_name == 'push'
-        run: |
-          if ls app/build/screens/*.png >/dev/null 2>&1; then
-            mkdir -p /tmp/shots && cp app/build/screens/*.png /tmp/shots/
-            cd /tmp/shots
-            git init -q && git checkout -q -b ci-screens
-            git add . && git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "screens ${GITHUB_SHA}"
-            git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" ci-screens
-          fi
