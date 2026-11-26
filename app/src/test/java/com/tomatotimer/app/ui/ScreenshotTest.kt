@@ -16,7 +16,9 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
+import com.github.takahirom.roborazzi.captureScreenRoboImage
 import com.tomatotimer.app.data.Prefs
 import com.tomatotimer.app.data.Session
 import com.tomatotimer.app.widget.TimerWidget
@@ -33,6 +35,7 @@ import java.time.LocalDate
  * 실제 폰 없이 화면을 PNG로 그려 보는 테스트. 결과는 app/build/screens/ 에 생겨요.
  * (GitHub Actions에서도 돌려서 'domadoro-screens'로 올려요)
  */
+@OptIn(ExperimentalRoborazziApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [35], qualifiers = "w390dp-h844dp-xxhdpi")
@@ -110,7 +113,8 @@ class ScreenshotTest {
         app(DayPalette, Tab.TIMER)
         compose.onNodeWithText("# 공부").performClick()
         compose.waitForIdle()
-        shot("11-label-menu")
+        // 펼친 메뉴는 별도 창이라 화면 전체를 찍어요.
+        captureScreenRoboImage("build/screens/11-label-menu.png")
     }
 
     @Test fun widget() {
