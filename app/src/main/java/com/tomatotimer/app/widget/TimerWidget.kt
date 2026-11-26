@@ -68,7 +68,7 @@ class TimerWidget : AppWidgetProvider() {
             return small
         }
 
-        private fun views(context: Context): RemoteViews {
+        internal fun views(context: Context): RemoteViews {
             val s = TimerEngine.state.value
             val goal = Prefs.goal.value
             val today = Prefs.todayCount()

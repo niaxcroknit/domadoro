@@ -40,10 +40,24 @@ android {
     buildFeatures {
         compose = true
     }
+
+    testOptions {
+        unitTests {
+            // 화면 그림 테스트(ScreenshotTest)가 앱 리소스를 쓰도록
+            isIncludeAndroidResources = true
+            all {
+                it.systemProperty("roborazzi.test.record", "true")
+            }
+        }
+    }
 }
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
+    // 화면 그림 테스트: 실제 폰 없이 화면을 PNG로 그려서 확인해요 (app/build/screens)
+    testImplementation("org.robolectric:robolectric:4.14.1")
+    testImplementation("io.github.takahirom.roborazzi:roborazzi:1.32.2")
+    testImplementation("androidx.test:core:1.6.1")
     val composeBom = platform("androidx.compose:compose-bom:2024.12.01")
     implementation(composeBom)
 
@@ -57,4 +71,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
+    testImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

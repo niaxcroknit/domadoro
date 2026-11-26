@@ -211,6 +211,11 @@ object Prefs {
         _sessions.value = kept
     }
 
+    /** 화면 그림 테스트에서 지난 기록을 채울 때만 써요. */
+    internal fun replaceSessionsForTest(list: List<Session>) {
+        _sessions.value = list
+    }
+
     fun todayCount(): Int {
         val today = LocalDate.now().toEpochDay()
         return _sessions.value.count { it.epochDay == today }
