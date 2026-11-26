@@ -14,8 +14,8 @@ android {
         applicationId = "com.domadoro.app"
         minSdk = 26 // PIP(작은 창)는 Android 8.0부터 지원
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
     }
 
     buildTypes {
